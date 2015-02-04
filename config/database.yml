@@ -17,14 +17,14 @@ default: &default
   password: 
   socket: /tmp/mysql.sock #check your own socket
 
-development: &development
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+# development: &development
+#   adapter: sqlite3
+#   pool: 5
+#   timeout: 5000
 
 development:
-  <<: *development
-  database: db/development.sqlite3
+  <<: *default
+  database: FuckYeaCoursePlanner_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
