@@ -13,51 +13,54 @@
 
 ActiveRecord::Schema.define(version: 20150202022750) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
-    t.text     "body",       limit: 65535
-    t.integer  "user_id",    limit: 4
-    t.integer  "course_id",  limit: 4
-    t.integer  "degree_id",  limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "course_id"
+    t.integer  "degree_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "course_code",        limit: 255
-    t.string   "course_name",        limit: 255
-    t.text     "course_description", limit: 65535
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.string   "course_code"
+    t.string   "course_name"
+    t.text     "course_description"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "courses_user", force: :cascade do |t|
-    t.integer "course_id", limit: 4
-    t.integer "user_id",   limit: 4
+    t.integer "course_id"
+    t.integer "user_id"
   end
 
   add_index "courses_user", ["course_id", "user_id"], name: "index_courses_user_on_course_id_and_user_id", using: :btree
 
   create_table "degrees", force: :cascade do |t|
-    t.string   "degree_name", limit: 255
-    t.integer  "degree_type", limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "degree_name"
+    t.integer  "degree_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "degrees_user", force: :cascade do |t|
-    t.integer "degree_id", limit: 4
-    t.integer "user_id",   limit: 4
+    t.integer "degree_id"
+    t.integer "user_id"
   end
 
   add_index "degrees_user", ["degree_id", "user_id"], name: "index_degrees_user_on_degree_id_and_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",      limit: 255
-    t.string   "last_name",       limit: 255
-    t.string   "email",           limit: 255
-    t.string   "password_digest", limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end
