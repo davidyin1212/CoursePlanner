@@ -13,7 +13,9 @@ class UsersController < ApplicationController
      
      # Actually adding link between degree and user
      @user = User.find(params[:user_id])
-     @degree.users << @user
+     if not @degree.users.exists?(@user)
+      @degree.users << @user
+     end 
      redirect_to @user
 
   end
