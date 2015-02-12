@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p> 
+
+<h1>Listing Entered Degrees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Degree name</th>
+      <th>Degree type</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @degrees.each do |degree| %>
+      <tr>
+        <td><%= degree.degree_name %></td>
+        <td><%= degree.degree_type %></td>
+        <td><%= link_to 'Add Degree', addDegree_user_path(user_id: @user.id, id: degree) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back', users_path %>

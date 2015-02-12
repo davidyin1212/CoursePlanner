@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
 
 	# if password_digest is blank, create a random password.
 	def secure_password_digest
-		self.password = SecureRandom.urlsafe_base64(16) if password_digest.blank?
+		# self.password = SecureRandom.urlsafe_base64(16) if password_digest.blank?
 	end
 end

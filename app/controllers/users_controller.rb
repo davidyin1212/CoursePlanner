@@ -1,10 +1,28 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+
+  def addDegreePage
+    @degrees = Degree.all
+    
+    @user = User.find(params[:id])
+  end
+    
+  def addDegree
+     @degree = Degree.find(params[:id])
+     
+     # Actually adding link between degree and user
+     @user = User.find(params[:user_id])
+     @degree.users << @user
+     redirect_to @user
+
+  end
+
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+    
   end
 
   # GET /users/1
@@ -25,7 +43,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -71,4 +89,5 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:first_name, :last_name)
     end
+    
 end

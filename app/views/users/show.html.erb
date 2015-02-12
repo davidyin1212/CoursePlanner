@@ -10,5 +10,31 @@
   <%= @user.last_name %>
 </p>
 
+<h1>Enrolled in the following Degrees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Degree name</th>
+      <th>Degree type</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.degrees.each do |degree| %>
+      <tr>
+        <td><%= degree.degree_name %></td>
+        <td><%= degree.degree_type %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Back', users_path %> |
+
+<%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> 
+
+
