@@ -18,6 +18,24 @@ class UsersController < ApplicationController
 
   end
 
+  def addCoursePage
+    @courses = Course.all
+    
+    @user = User.find(params[:id])
+  end
+    
+  def addCourse
+     @course = Course.find(params[:id])
+     
+     # Actually adding link between degree and user
+     @user = User.find(params[:user_id])
+     if not @course.users.exists?(@user)
+      @course.users << @user
+     end 
+     redirect_to @user
+
+  end
+
   # GET /users
   # GET /users.json
   def index

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     member do
       get 'addDegreePage'
       get 'addDegree'
+      get 'addCoursePage'
+      get 'addCourse'
     end
   end
 

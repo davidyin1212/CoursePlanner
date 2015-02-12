@@ -32,9 +32,33 @@
 
 <br>
 
+<h1>Enrolled in the following Courses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Course code</th>
+      <th>Course name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.courses.each do |course| %>
+      <tr>
+        <td><%= course.course_code %></td>
+        <td><%= course.course_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %> |
 
 <%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> 
+<%= link_to 'Add Courses', addCoursePage_user_path(@user) %> 
+
 
 
