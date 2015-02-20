@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 20150212221552) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "courses_user", force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "courses_user", ["course_id", "user_id"], name: "index_courses_user_on_course_id_and_user_id", using: :btree
+
   create_table "courses_users", id: false, force: :cascade do |t|
     t.integer "course_id"
     t.integer "user_id"
@@ -47,6 +54,13 @@ ActiveRecord::Schema.define(version: 20150212221552) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "degrees_user", force: :cascade do |t|
+    t.integer "degree_id"
+    t.integer "user_id"
+  end
+
+  add_index "degrees_user", ["degree_id", "user_id"], name: "index_degrees_user_on_degree_id_and_user_id", using: :btree
 
   create_table "degrees_users", id: false, force: :cascade do |t|
     t.integer "degree_id"
