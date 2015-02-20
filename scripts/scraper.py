@@ -162,21 +162,21 @@ class CalendarPageParser(hp.HTMLParser):
             if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
                 category = 'Prerequisite'
             elif 'breadth requirement' in cat_string:
-                category = 'Breadth Requirement'
+                category = 'BreadthRequirement'
             elif 'exclusion' in cat_string:
                 category = 'Exclusion'
             elif 'distribution requirement status' in cat_string:
-                category = 'Distribution Requirement Status'
+                category = 'DistributionRequirementStatus'
             elif 'recommended preparation' in cat_string:
-                category = 'Recommended Preparation'
+                category = 'RecommendedPreparation'
             elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
                 category = 'Corequisite'
             elif 'enrolment limits' in cat_string:
-                category = 'Enrolment Limits'
+                category = 'EnrolmentLimits'
             elif 'note' in cat_string:
                 category = 'Note'
             elif 'available online' in cat_string:
-                category = 'Available Online'
+                category = 'AvailableOnline'
             else:
                 category = 'Other'
             data = category_data_pair[1] if category != 'Other' else self.temp_string
@@ -523,21 +523,21 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
             if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
                 category = 'Prerequisite'
             elif 'breadth requirement' in cat_string:
-                category = 'Breadth Requirement'
+                category = 'BreadthRequirement'
             elif 'exclusion' in cat_string:
                 category = 'Exclusion'
             elif 'distribution requirement status' in cat_string:
-                category = 'Distribution Requirement Status'
+                category = 'DistributionRequirementStatus'
             elif 'recommended preparation' in cat_string:
-                category = 'Recommended Preparation'
+                category = 'RecommendedPreparation'
             elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
                 category = 'Corequisite'
             elif 'enrolment limits' in cat_string:
-                category = 'Enrolment Limits'
+                category = 'EnrolmentLimits'
             elif 'note' in cat_string:
                 category = 'Note'
             elif 'available online' in cat_string:
-                category = 'Available Online'
+                category = 'AvailableOnline'
             else:
                 category = 'Other'
             data = category_data_pair[1] if category != 'Other' else self.temp_string

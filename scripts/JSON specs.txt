@@ -5,20 +5,20 @@ Top level dict:
 NOTE: field_size.json has a list of maximum number of characters used by each field in the second level dict
 Second level dict:
 	-key/values pairs:
-		- 'Distribution Requirement Status': Distribution Requirement Status value
+		- 'DistributionRequirementStatus': Distribution Requirement Status value
 		- 'LEC' : number of lecture hours
 		- 'PRA' : number of practical hours
 		- 'TUT' : number of tutorial hours
 		- 'SEM' : number of seminar hours
 		- 'CR' : number of credits
-		- 'Enrolment Limits' : Enrolment Limits value
-		- 'Recommended Preparation' : Recommended Preparation courses
+		- 'EnrolmentLimits' : Enrolment Limits value
+		- 'RecommendedPreparation' : Recommended Preparation courses
 		- 'Note' : Anything prefaced by 'Note:'
 		- 'Corequisite' : list of prerequisites; normally has href to the courses
-		- 'Available Online' : this field shows up for a few courses
+		- 'AvailableOnline' : this field shows up for a few courses
 		- 'name' : course name
 		- 'Exclusion' : exclusion courses (normally has href to exclusion courses)
-		- 'Breadth Requirement' : breadth requirement (note: value string terminates with the breadth requirement code in brackets (e.g. "The Physical and Mathematical Universes (5)"))
+		- 'BreadthRequirement' : breadth requirement (note: value string terminates with the breadth requirement code in brackets (e.g. "The Physical and Mathematical Universes (5)"))
 		- 'code' : course code
 		- 'SC' : whether it is a fall course ('F'), a winter course ('S'), or a full-year course ('Y')
 		- 'Prerequisite' : list of prerequisites; normally has href to the courses
@@ -52,13 +52,13 @@ List of times:
 Example:
 {																											    -Beginning of JSON
 	AST221H1: {                                                                                                 -First course with key = course code = AST221H1 and value = dictionary
-		Distribution Requirement Status: "This is a Science course",                                            -First field in AST221H1 dict with key = 'Distribution Requirement Status' and value = "This is a Science course"
+		DistributionRequirementStatus: "This is a Science course",                                            -First field in AST221H1 dict with key = 'Distribution Requirement Status' and value = "This is a Science course"
 		LEC: 36,																								-36 lecture hours
 		PRA: 0,																									-0 practical hours
 		name: "Stars and Planets",																				-course name is "Stars and Planets"
 		Exclusion: "<a href="crs_ast.htm#AST101H1">AST101H1</a>/<a href="crs_ast.htm#AST201H1">AST201H1</a>",	-AST101H1 and AST201H1 are exclusion courses. This includes html hrefs to the courses
 		TUT: 0,																									-0 tutorial hours
-		Breadth Requirement: "The Physical and Mathematical Universes (5)",										-Breadth Requirement is "The Physical and Mathematical Universes (5)", note the (5) at the end, which is the code for 'The Physical and Mathematical Universes'
+		BreadthRequirement: "The Physical and Mathematical Universes (5)",										-Breadth Requirement is "The Physical and Mathematical Universes (5)", note the (5) at the end, which is the code for 'The Physical and Mathematical Universes'
 		code: "AST221H1",																						-course code as a field
 		SC: "F",																								-F means a fall course
 		SEM: 0,																									-0 seminar hours
