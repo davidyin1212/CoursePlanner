@@ -14,7 +14,10 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
+	
     @comment = Comment.new
+    @course = Course.find(params[:course_id])
+    
   end
 
   # GET /comments/1/edit
@@ -24,11 +27,12 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
-
+	 @course = Course.find(params[:course_id])
+	  @comment = @course.comments.create(comment_params)
+	  
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        format.html { redirect_to @course, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }

@@ -1,16 +1,24 @@
 Rails.application.routes.draw do
-  resources :comments
+  
 
-  resources :degrees
+  resources :degrees do
+    member do
+      get 'addCoursePage'
+      get 'addCourse'
+    end
+  end
 
-  resources :courses
-
+  resources :courses do
+	resources :comments
+	end
+	
   resources :users do
     member do
       get 'addDegreePage'
       get 'addDegree'
       get 'addCoursePage'
       get 'addCourse'
+      
     end
   end
 

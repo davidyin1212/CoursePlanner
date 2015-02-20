@@ -15,6 +15,7 @@ class CoursesController < ApplicationController
   # GET /courses/new
   def new
     @course = Course.new
+    
   end
 
   # GET /courses/1/edit
@@ -59,6 +60,25 @@ class CoursesController < ApplicationController
       format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+  
+  def addCommentsPage
+   
+     @comment = Comment.new
+    @course = Course.find(params[:id])
+  end
+    
+  def addComments
+    
+     @comment = Comment.new(course_params)
+
+     
+     @course = Course.find(params[:course_id])
+    
+      @comment.courses << @course
+      
+     redirect_to @course
+
   end
 
   private
