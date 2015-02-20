@@ -1,0 +1,18 @@
+require 'FileUtils'
+FileUtils.pwd
+FileUtils.cd 'C:\Users\Owner\Documents\GitHub\CoursePlanner\scripts'
+load 'Scheduler.rb'
+
+Scheduler.new(nil).calculate_overlap([['ECE446',['M',12,15],['M',12,14],['T',12,15]],['ECE521',['M',11,13],['T',14,16],['R',10,11]]])
+
+course1 = ['ECE446H1',[[['L0101',['M',13,15]]],[['T0101',['M',16,19]],['T0102',['T',9,12]]]]]
+course2 = ['ECE521H1',[[['L0101',['T',13,15]]]]]
+course3 = ['ECE462H1',[[['L0101',['M',14,17]]]]]
+course4 = ['ESC499Y1',[[['L0101',['R',13,15],['M',13,15]],['L0102',['R',13,15],['M',13,14]]]]]
+course5 = ['ECE447H1',[[['L0101',['M',13,15]]],[['T0101',['M',16,19],['T',9,12]],['T0102',['M',18,19],['T',9,12]],['T0102',['R',13,15],['T',9,14]]]]]
+set1 = [course1,course2]
+set2 = [course1,course2,course3]
+set3 = [course1,course2,course4]
+set4 = [course1,course2,course3,course4,course5]
+
+res = Scheduler.new(nil).schedule_all(set1)
