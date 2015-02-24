@@ -28,30 +28,29 @@ data_hash.each do |course_code, sub_hash|
 #UPDATE table_name
 #SET column1=value1,column2=value2,...
 #WHERE some_column=some_value;
-	puts key
-	puts array
 	#Check if in table
-	res = conn.exec('SELECT * FROM courses WHERE code = ' + course_code + )
+	res = conn.exec('SELECT * FROM courses WHERE code = \'' + course_code + '\'')
 	if res.ntuples == 0
 	#If not in table, create new entry
 		column_names = ''
 		values = ''
 		sub_hash.each do |field_name, field_value|
 			column_names += field_name.to_s + ','
-			values += '\'' field_value.to_s + '\','
+			values += '\'' + field_value.to_s.gsub('\'','\'\'') + '\','
 		end
 		column_names = column_names[0..-2]
 		values = values[0..-2]
+#		puts 'INSERT INTO courses (' + column_names + ') VALUES(' + values + ')'
 		sql_command = 'INSERT INTO courses (' + column_names + ') VALUES(' + values + ')'
 		conn.exec(sql_command)
 	else
 	#Else update entry
 		column_value_pairs = ''
 		sub_hash.each do |field_name, field_value|
-			column_value_pairs += field_name.to_s + '=\'' field_value.to_s + '\','
+			column_value_pairs += field_name.to_s + '=\'' + field_value.to_s.gsub('\'','\'\'') + '\','
 		end
 		column_names = column_names[0..-2]
-		sql_command = 'UPDATE courses SET ' + column_value_pairs + 'WHERE code = ' + course_code
+		sql_command = 'UPDATE courses SET ' + column_value_pairs + 'WHERE code = \'' + course_code + '\''
 		conn.exec(sql_command)	
 	end
 

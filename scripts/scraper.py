@@ -728,14 +728,52 @@ class EngineeringTimetableDirectoryParser():
         out_file.close
 
 class CourseFinderParser(hp.HTMLParser):
+    def fetch_url(self,url):
+        self.url = url
+        self.relevant_field = ''
+        self.section = ''
+        self.data = {}
+        h = hl.Http(".cache")
+        (resp, content) = h.request(self.url)#,
+                        #headers={'cache-control':'no-cache'} )
+        self.feed(content)
+    
     def handle_starttag(self, tag, attrs):
-#        if tag == 'span' and ('id',"u281_line7")
-#       <span id="u281_line7"> max_enrollment
+        if tag == 'span':
+            id_line = dict(attrs).get('id')
+#       <span id="u281_line#SECT_NUM"> max_enrollment
 #       <span id="u290_line7"> current_enrollment
 #       <span id="u245_line7"> section
+            if id_line:
+                if 'u245' in id_line:
+                    self.relevant_field = 'Section'
+                elif 'u281' in id_line:
+                    self.relevant_field = 'MaxEnrolment'
+                elif 'u290' in id_line:
+                    self.relevant_field = 'CurrentEnrolment'
 
-#        self.relevant_field = 'current enrollment'
-        pass
+    def handle_endtag(self,tag):
+        self.relevant_field = ''
+
+    def handle_data(self,data):
+        stripped_data = re.sub('[^A-Za-z0-9]+', '', data).upper()
+        if self.relevant_field == 'Section':
+            self.section = stripped_data
+            self.data[self.section] = {'Section' : self.section}
+        elif self.relevant_field == 'MaxEnrolment':
+            self.data[self.section]['MaxEnrolment'] = stripped_data
+        elif self.relevant_field == 'CurrentEnrolment':
+            self.data[self.section]['CurrentEnrolment'] = stripped_data
+
+    def output_json_string(self):
+        #Returns a json string of the courses
+        return json.dumps(self.data)
+    
+    def write_to_file(self,filename):
+        #Writes json of courses to file with name = filename
+        out_file = open(filename, 'wb')
+        out_file.write(self.output_json_string())
+        out_file.close
 
 class TestParser(hp.HTMLParser):
     def handle_starttag(self,tag,attrs):
@@ -750,6 +788,7 @@ class TestParser(hp.HTMLParser):
 #TODO: restore no-cache for both eng-parsers
         
 if __name__ == '__main__':
+    pass
     #Testing
 #    x = TimetableDirectoryParser()
 #    x.fetch()    
@@ -767,14 +806,14 @@ if __name__ == '__main__':
 #    out_file.write(json.dumps(x.courses, ensure_ascii=False))
 #    out_file.close
 
-    x = TimetableDirectoryParser()
-    x.fetch()    
-    x.process_urls()
-    y = EngineeringTimetableDirectoryParser()
-    y.fetch_data()
-    x.courses.update(y.courses)
-    out_file = open('all_courses.json', 'wb')
-    out_file.write(json.dumps(x.courses, ensure_ascii=False))
-    out_file.close
-
-    
+#    x = TimetableDirectoryParser()
+#    x.fetch()    
+#    x.process_urls()
+#    y = EngineeringTimetableDirectoryParser()
+#    y.fetch_data()
+#    x.courses.update(y.courses)
+#    out_file = open('all_courses.json', 'wb')
+#    out_file.write(json.dumps(x.courses, ensure_ascii=False))
+#    out_file.close
+#
+#    
