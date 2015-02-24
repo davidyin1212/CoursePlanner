@@ -1,17 +1,43 @@
 Rails.application.routes.draw do
-  resources :comments
 
-  resources :degrees
+  get 'log_in' => 'sessions#new', :as => 'log_in'
+  get 'log_out' => 'sessions#destroy', :as => 'log_out' 
+  
+  get 'sessions/create'
 
-  resources :courses
+  get 'sessions/destroy'
 
-  resources :users
+  get 'landing/index'
+
+  get 'sign_up' => "users#new", :as => 'sign_up'
+
+  resources :degrees do
+    member do
+      get 'addCoursePage'
+      get 'addCourse'
+    end
+  end
+
+  resources :courses do
+	resources :comments
+	end
+	
+  resources :users do
+    member do
+      get 'addDegreePage'
+      get 'addDegree'
+      get 'addCoursePage'
+      get 'addCourse'
+      
+    end
+  end
+  resources :sessions
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'landing#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

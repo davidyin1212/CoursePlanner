@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p> 
+
+<h1>Listing Entered Courses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Course Code</th>
+      <th>Course Name</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.course_code %></td>
+        <td><%= course.course_name %></td>
+        <td><%= link_to 'Add Course', addCourse_user_path(user_id: @user.id, id: course) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back', users_path %>

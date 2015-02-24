@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    
   end
 
   # GET /users/1
@@ -24,6 +25,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    # user_params.permit(:first_name, :last_name, :email, :password, :password_confirmation)
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -42,7 +44,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to user_url, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -69,6 +71,44 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name)
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     end
+    
+
+  def addDegreePage
+    @degrees = Degree.all
+    
+    @user = User.find(params[:id])
+  end
+    
+  def addDegree
+     @degree = Degree.find(params[:id])
+     
+     # Actually adding link between degree and user
+     @user = User.find(params[:user_id])
+     if not @degree.users.exists?(@user)
+      @degree.users << @user
+     end 
+     redirect_to @user
+
+  end
+
+  def addCoursePage
+    @courses = Course.all
+    
+    @user = User.find(params[:id])
+  end
+    
+  def addCourse
+     @course = Course.find(params[:id])
+     
+     # Actually adding link between degree and user
+     @user = User.find(params[:user_id])
+     if not @course.users.exists?(@user)
+      @course.users << @user
+     end 
+     redirect_to @user
+
+  end
+
 end

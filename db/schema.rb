@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202022750) do
+ActiveRecord::Schema.define(version: 20150212200446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,12 +33,13 @@ ActiveRecord::Schema.define(version: 20150202022750) do
     t.datetime "updated_at",         null: false
   end
 
-  create_table "courses_user", force: :cascade do |t|
+  create_table "courses_users", id: false, force: :cascade do |t|
     t.integer "course_id"
     t.integer "user_id"
   end
 
-  add_index "courses_user", ["course_id", "user_id"], name: "index_courses_user_on_course_id_and_user_id", using: :btree
+  add_index "courses_users", ["course_id"], name: "index_courses_users_on_course_id", using: :btree
+  add_index "courses_users", ["user_id"], name: "index_courses_users_on_user_id", using: :btree
 
   create_table "degrees", force: :cascade do |t|
     t.string   "degree_name"
@@ -47,12 +48,13 @@ ActiveRecord::Schema.define(version: 20150202022750) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "degrees_user", force: :cascade do |t|
+  create_table "degrees_users", id: false, force: :cascade do |t|
     t.integer "degree_id"
     t.integer "user_id"
   end
 
-  add_index "degrees_user", ["degree_id", "user_id"], name: "index_degrees_user_on_degree_id_and_user_id", using: :btree
+  add_index "degrees_users", ["degree_id"], name: "index_degrees_users_on_degree_id", using: :btree
+  add_index "degrees_users", ["user_id"], name: "index_degrees_users_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
