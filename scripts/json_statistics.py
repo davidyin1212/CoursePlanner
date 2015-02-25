@@ -17,6 +17,8 @@ record = {}
 
 for key in data.keys():
     for field in data[key].keys():
+        if field == 'code' and len(unicode(data[key][field])) > 10:
+            print unicode(data[key][field])
         if field not in record.keys():
             record[field] = len(unicode(data[key][field]))
         else:

@@ -77,6 +77,8 @@ class CalendarPageParser(hp.HTMLParser):
                 for course in self.courses:
                     if course.get_field('code') == course_code['name']:
                         duplicate = 1
+                    elif len(course_code['name'])>10:
+                        duplicate = 1
                 if duplicate:
                     self.active_course = Course(0)
                     self.has_active_course = 0
@@ -155,33 +157,34 @@ class CalendarPageParser(hp.HTMLParser):
             self.temp_string += data.encode('utf8','ignore')
 
     def process_additional_data_string(self):
-        category_data_pair = self.temp_string.split(':',1)
-        if len(category_data_pair) > 1:
-            #Try to find what category this belongs to. If none, print for debug
-            cat_string = category_data_pair[0].lower()
-            if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
-                category = 'Prerequisite'
-            elif 'breadth requirement' in cat_string:
-                category = 'BreadthRequirement'
-            elif 'exclusion' in cat_string:
-                category = 'Exclusion'
-            elif 'distribution requirement status' in cat_string:
-                category = 'DistributionRequirementStatus'
-            elif 'recommended preparation' in cat_string:
-                category = 'RecommendedPreparation'
-            elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
-                category = 'Corequisite'
-            elif 'enrolment limits' in cat_string:
-                category = 'EnrolmentLimits'
-            elif 'note' in cat_string:
-                category = 'Note'
-            elif 'available online' in cat_string:
-                category = 'AvailableOnline'
-            else:
-                category = 'Other'
-            data = category_data_pair[1] if category != 'Other' else self.temp_string
-            if category:
-                self.active_course.set_field(category,data.strip())
+        self.active_course.add_to_desc(self.temp_string)
+#        category_data_pair = self.temp_string.split(':',1)
+#        if len(category_data_pair) > 1:
+#            #Try to find what category this belongs to. If none, print for debug
+#            cat_string = category_data_pair[0].lower()
+#            if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
+#                category = 'Prerequisite'
+#            elif 'breadth requirement' in cat_string:
+#                category = 'BreadthRequirement'
+#            elif 'exclusion' in cat_string:
+#                category = 'Exclusion'
+#            elif 'distribution requirement status' in cat_string:
+#                category = 'DistributionRequirementStatus'
+#            elif 'recommended preparation' in cat_string:
+#                category = 'RecommendedPreparation'
+#            elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
+#                category = 'Corequisite'
+#            elif 'enrolment limits' in cat_string:
+#                category = 'EnrolmentLimits'
+#            elif 'note' in cat_string:
+#                category = 'Note'
+#            elif 'available online' in cat_string:
+#                category = 'AvailableOnline'
+#            else:
+#                category = 'Other'
+#            data = category_data_pair[1] if category != 'Other' else self.temp_string
+#            if category:
+#                self.active_course.set_field(category,data.strip())
             
     def get_course_data(self):
         courses = {}
@@ -505,9 +508,9 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
             self.active_course.step = 5
         elif self.active_course.step == 6:
             LPTS_info = data.split('/')
-            self.active_course.set_field('LEC',float(LPTS_info[0].replace('-','0').replace('m','').replace('a','')))
-            self.active_course.set_field('PRA',float(LPTS_info[1].replace('-','0').replace('m','').replace('a','')))
-            self.active_course.set_field('TUT',float(LPTS_info[2].replace('-','0').replace('m','').replace('a','')))
+            self.active_course.set_field('LEC',12*float(LPTS_info[0].replace('-','0').replace('m','').replace('a','')))
+            self.active_course.set_field('PRA',12*float(LPTS_info[1].replace('-','0').replace('m','').replace('a','')))
+            self.active_course.set_field('TUT',12*float(LPTS_info[2].replace('-','0').replace('m','').replace('a','')))
             self.active_course.set_field('CR',float(LPTS_info[3].replace('-','0').replace('m','').replace('a','')))
             self.active_course.step = 7
         elif self.active_course.step == 8 or self.active_course.step == 9:
@@ -516,33 +519,34 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
             self.temp_string += data
 
     def process_additional_data_string(self):
-        category_data_pair = self.temp_string.split(':',1)
-        if len(category_data_pair) > 1:
+#        category_data_pair = self.temp_string.split(':',1)
+#        if len(category_data_pair) > 1:
+        self.active_course.add_to_desc(self.temp_string)
             #Try to find what category this belongs to. If none, print for debug
-            cat_string = category_data_pair[0].lower()
-            if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
-                category = 'Prerequisite'
-            elif 'breadth requirement' in cat_string:
-                category = 'BreadthRequirement'
-            elif 'exclusion' in cat_string:
-                category = 'Exclusion'
-            elif 'distribution requirement status' in cat_string:
-                category = 'DistributionRequirementStatus'
-            elif 'recommended preparation' in cat_string:
-                category = 'RecommendedPreparation'
-            elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
-                category = 'Corequisite'
-            elif 'enrolment limits' in cat_string:
-                category = 'EnrolmentLimits'
-            elif 'note' in cat_string:
-                category = 'Note'
-            elif 'available online' in cat_string:
-                category = 'AvailableOnline'
-            else:
-                category = 'Other'
-            data = category_data_pair[1] if category != 'Other' else self.temp_string
-            if category:
-                self.active_course.set_field(category,data.strip())
+#            cat_string = category_data_pair[0].lower()
+#            if 'prerequisite' in cat_string or 'Pre-requisite' in cat_string:
+#                category = 'Prerequisite'
+#            elif 'breadth requirement' in cat_string:
+#                category = 'BreadthRequirement'
+#            elif 'exclusion' in cat_string:
+#                category = 'Exclusion'
+#            elif 'distribution requirement status' in cat_string:
+#                category = 'DistributionRequirementStatus'
+#            elif 'recommended preparation' in cat_string:
+#                category = 'RecommendedPreparation'
+#            elif 'corequisite' in cat_string or 'co-requisite' in cat_string:
+#                category = 'Corequisite'
+#            elif 'enrolment limits' in cat_string:
+#                category = 'EnrolmentLimits'
+#            elif 'note' in cat_string:
+#                category = 'Note'
+#            elif 'available online' in cat_string:
+#                category = 'AvailableOnline'
+#            else:
+#                category = 'Other'
+#            data = category_data_pair[1] if category != 'Other' else self.temp_string
+#            if category:
+#                self.active_course.set_field(category,data.strip())
             
     def get_course_data(self):
         courses = {}
@@ -806,14 +810,14 @@ if __name__ == '__main__':
 #    out_file.write(json.dumps(x.courses, ensure_ascii=False))
 #    out_file.close
 
-#    x = TimetableDirectoryParser()
-#    x.fetch()    
-#    x.process_urls()
-#    y = EngineeringTimetableDirectoryParser()
-#    y.fetch_data()
-#    x.courses.update(y.courses)
-#    out_file = open('all_courses.json', 'wb')
-#    out_file.write(json.dumps(x.courses, ensure_ascii=False))
-#    out_file.close
+    x = TimetableDirectoryParser()
+    x.fetch()    
+    x.process_urls()
+    y = EngineeringTimetableDirectoryParser()
+    y.fetch_data()
+    x.courses.update(y.courses)
+    out_file = open('all_courses.json', 'wb')
+    out_file.write(json.dumps(x.courses, ensure_ascii=False))
+    out_file.close()
 #
 #    
