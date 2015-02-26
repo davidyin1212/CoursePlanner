@@ -1,0 +1,95 @@
+Top level dict:
+	-key = course code (e.g. AST221H1)
+	-value = second level dict
+
+NOTE: field_size.json has a list of maximum number of characters used by each field in the second level dict
+Second level dict:
+	-key/values pairs:
+		- 'DistributionRequirementStatus': Distribution Requirement Status value
+		- 'LEC' : number of lecture hours
+		- 'PRA' : number of practical hours
+		- 'TUT' : number of tutorial hours
+		- 'SEM' : number of seminar hours
+		- 'CR' : number of credits
+		- 'EnrolmentLimits' : Enrolment Limits value
+		- 'RecommendedPreparation' : Recommended Preparation courses
+		- 'Note' : Anything prefaced by 'Note:'
+		- 'Corequisite' : list of prerequisites; normally has href to the courses
+		- 'AvailableOnline' : this field shows up for a few courses
+		- 'name' : course name
+		- 'Exclusion' : exclusion courses (normally has href to exclusion courses)
+		- 'BreadthRequirement' : breadth requirement (note: value string terminates with the breadth requirement code in brackets (e.g. "The Physical and Mathematical Universes (5)"))
+		- 'code' : course code
+		- 'SC' : whether it is a fall course ('F'), a winter course ('S'), or a full-year course ('Y')
+		- 'Prerequisite' : list of prerequisites; normally has href to the courses
+		- 'description' : course description
+		- 'fallsections' : third level dict with lecture/tutorial/practical section info for fall
+		- 'wintersections' :  third level dict with lecture/tutorial/practical section info for winter
+		- 'Other' : dumping ground for anything my code couldn't place
+
+Third level dict:
+	-key = section code (e.g. L0101)
+	-value = first level list
+	
+First level list:
+	- values in order:
+		- waitlist (Y/N)
+		- Ind (still not sure what this is supposed to do but it's in the timetable)
+		- Professor
+		- second level list of time slots
+
+Second level list:
+	- list of third level lists (third level list contains time/location info)
+
+Third level list:
+	- values in order
+		- location (e.e. GB404)
+		- list of times
+
+List of times:
+	- each element is a list of the form [day,start time, end time] (e.g. ['M',12,14.5] is Monday from 12 to 2:30) times are in 24 hr format
+	
+Example:
+{																											    -Beginning of JSON
+	AST221H1: {                                                                                                 -First course with key = course code = AST221H1 and value = dictionary
+		DistributionRequirementStatus: "This is a Science course",                                            -First field in AST221H1 dict with key = 'Distribution Requirement Status' and value = "This is a Science course"
+		LEC: 36,																								-36 lecture hours
+		PRA: 0,																									-0 practical hours
+		name: "Stars and Planets",																				-course name is "Stars and Planets"
+		Exclusion: "<a href="crs_ast.htm#AST101H1">AST101H1</a>/<a href="crs_ast.htm#AST201H1">AST201H1</a>",	-AST101H1 and AST201H1 are exclusion courses. This includes html hrefs to the courses
+		TUT: 0,																									-0 tutorial hours
+		BreadthRequirement: "The Physical and Mathematical Universes (5)",										-Breadth Requirement is "The Physical and Mathematical Universes (5)", note the (5) at the end, which is the code for 'The Physical and Mathematical Universes'
+		code: "AST221H1",																						-course code as a field
+		SC: "F",																								-F means a fall course
+		SEM: 0,																									-0 seminar hours
+		sections: {																								-the key 'sections' has a value which is a dict of sections
+			L0101: [																							-First section with key = section code = L0101 and it's value is a list
+				"Y",																							-First element of L0101 list is the waitlist info (in this case, Y=waitlist allowed)
+				"",																								-Second element of L0101 list is the Ind field - still not sure what it does
+				"C.Matzner",																					-Professor
+				[																								-Fourth element of L0101 list is another list with times and locations
+					[																							-First element of the time list a list corresponding to the first line in the timetable
+						"AB 107",																				-Location
+						[																						-The remaining elements of the list are times: in this case: we have class from 12 to 1 on Monday, Wednesday, and Friday
+							"M",
+							"12",
+							"13"
+						],
+						[
+							"W",
+							"12",
+							"13"
+						],
+						[
+							"F",
+							"12",
+							"13"
+						]
+					]
+				]
+			]
+		},																									-Prereq and course description info below
+		Prerequisite: "<a href="crs_phy.htm#PHY132H1">PHY132H1</a>/<a href="crs_phy.htm#PHY152H1">PHY152H1</a>/<a href="crs_phy.htm#PHY180H1">PHY180H1</a>",
+		description: "The (astro)physics of stars and planets, their observed variety, their structure, formation and evolution. Introduction to telescopes and instrumentation."
+	},
+	PRT399Y0: {																								-Beginning of next course
