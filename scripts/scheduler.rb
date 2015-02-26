@@ -9,16 +9,15 @@ class Scheduler
 	
 	def schedule()
 	#Input: list of courses
-	#	Format: [[course_code1, [section_set1,section_set2,...]],[course_code2, [section_set1,section_set2,...]],...]
-	#			Section_set = [[code,[['T',13,14],['M',11,15],etc.,[code,[['T',11,14],['M',11,13],etc.],...]
-	#		input[n] = nth course
-	#		input[n][0] = code of nth course
-	#		input[n][1][k] = kth section set of nth course
-	#		input[n][1][k][m] = mth option of kth section set of nth course
-	#		input[n][1][k][m][0] = section code of mth option of kth section set of nth course
-	#		input[n][1][k][m][1][x] = xth time elem of code of mth option of kth section set of nth course
+	#	Format: {course_code1: {section1,section2,...},course_code2: [...],...]
+	#			Section = sec_code: [ignore,ignore,ignore,[[rm1,[time1],[time2],...],[rm2,[time1],[time2]],...]]
 	
 	#Convert to correct input type
+		formatted_course_list = {}
+		@course_list.each do |course_code, section_list|
+			formatted_course_list[course_code] = {}
+			
+		end
 		optimal_schedule = schedule_all(@course_list)
 		#Convert output to hash
 		@cost = optimal_schedule['cost']

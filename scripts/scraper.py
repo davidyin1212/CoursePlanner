@@ -653,7 +653,7 @@ class EngineeringTimetableParser(hp.HTMLParser):
                     self.courses[self.current_code] = {self.session+'sections':{}}
                 #Look for section code
                 self.current_section = row[1]
-                if self.current_section not in self.courses[self.current_code].keys():
+                if self.current_section not in self.courses[self.current_code][self.session+'sections'].keys():
                     if 'Zariffa, Jos' in row[7]:
                         self.courses[self.current_code][self.session+'sections'][self.current_section] = ['','','Zariffa, Jos',[]]                        
                     else:
@@ -671,7 +671,6 @@ class EngineeringTimetableParser(hp.HTMLParser):
                 start_time = float(time_list[0]) + (0.5 if time_list[1][0] == '3' else 0)
                 time_list = row[5].split(':')
                 end_time = float(time_list[0]) + (0.5 if time_list[1][0] == '3' else 0)
-                
                 self.courses[self.current_code][self.session+'sections'][self.current_section][3].append([row[6],[day,start_time,end_time]])
                                 
         return self.courses
