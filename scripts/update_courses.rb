@@ -12,7 +12,7 @@ course_json_file = File.read('master_timetable_partial.json')
 data_hash = JSON.parse(course_json_file)
 
 #Connect to database
-conn=PGconn.connect( :hostaddr=>"127.0.0.1", :port=>5432, :dbname=>"test", :user=>"postgres", :password=>'1234')
+conn=PGconn.connect( :hostaddr=>"127.0.0.1", :port=>3000, :dbname=>"test", :user=>"postgres", :password=>'1234')
 
 
 data_hash.each do |course_code, sub_hash|
