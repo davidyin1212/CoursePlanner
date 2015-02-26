@@ -17,6 +17,7 @@
     <tr>
       <th>Degree name</th>
       <th>Degree type</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
@@ -25,6 +26,7 @@
       <tr>
         <td><%= degree.degree_name %></td>
         <td><%= degree.degree_type %></td>
+        <td><%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -39,6 +41,7 @@
     <tr>
       <th>Course code</th>
       <th>Course name</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
@@ -47,6 +50,7 @@
       <tr>
         <td><%= course.course_code %></td>
         <td><%= course.course_name %></td>
+        <td><%= link_to 'Leave Class', remCourse_user_path(user_id: @user, course_id: course), data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

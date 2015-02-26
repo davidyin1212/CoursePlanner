@@ -28,7 +28,10 @@ Rails.application.routes.draw do
       get 'addDegree'
       get 'addCoursePage'
       get 'addCourse'
-      
+
+      get 'remDegree'
+      get 'remCourse'
+
     end
   end
   resources :sessions

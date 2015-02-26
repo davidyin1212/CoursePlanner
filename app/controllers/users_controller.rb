@@ -63,6 +63,61 @@ class UsersController < ApplicationController
     end
   end
 
+  def addDegreePage
+    @degrees = Degree.all
+
+    @user = User.find(params[:id])
+  end
+
+  def addDegree
+    @degree = Degree.find(params[:id])
+
+    # Actually adding link between degree and user
+    @user = User.find(params[:user_id])
+    if not @degree.users.exists?(@user)
+      @degree.users << @user
+    end
+    redirect_to @user
+
+  end
+
+  def remDegree
+    @user = User.find(params[:user_id])
+    @degree = Degree.find(params[:degree_id])
+
+    @degree.users.delete(@user);
+
+    redirect_to @user
+  end
+
+  def addCoursePage
+    @courses = Course.all
+
+    @user = User.find(params[:id])
+  end
+
+  def addCourse
+    @course = Course.find(params[:id])
+
+    # Actually adding link between degree and user
+    @user = User.find(params[:user_id])
+    if not @course.users.exists?(@user)
+      @course.users << @user
+    end
+    redirect_to @user
+
+  end
+
+  def remCourse
+    @user = User.find(params[:user_id])
+    @course = Course.find(params[:course_id])
+
+    @course.users.delete(@user);
+
+    redirect_to @user
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -75,40 +130,6 @@ class UsersController < ApplicationController
     end
     
 
-  def addDegreePage
-    @degrees = Degree.all
-    
-    @user = User.find(params[:id])
-  end
-    
-  def addDegree
-     @degree = Degree.find(params[:id])
-     
-     # Actually adding link between degree and user
-     @user = User.find(params[:user_id])
-     if not @degree.users.exists?(@user)
-      @degree.users << @user
-     end 
-     redirect_to @user
 
-  end
-
-  def addCoursePage
-    @courses = Course.all
-    
-    @user = User.find(params[:id])
-  end
-    
-  def addCourse
-     @course = Course.find(params[:id])
-     
-     # Actually adding link between degree and user
-     @user = User.find(params[:user_id])
-     if not @course.users.exists?(@user)
-      @course.users << @user
-     end 
-     redirect_to @user
-
-  end
 
 end
