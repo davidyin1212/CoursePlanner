@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
 
-  get 'log_in' => 'sessions#new', :as => 'log_in'
-  get 'log_out' => 'sessions#destroy', :as => 'log_out' 
+  devise_for :users
+  # get 'log_in' => 'sessions#new', :as => 'log_in'
+  # get 'log_out' => 'sessions#destroy', :as => 'log_out' 
   
-  get 'sessions/create'
+  # get 'sessions/create'
 
-  get 'sessions/destroy'
+  # get 'sessions/destroy'
 
   get 'landing/index'
 
-  get 'sign_up' => "users#new", :as => 'sign_up'
+  # get 'sign_up' => "users#new", :as => 'sign_up'
 
   resources :degrees do
     member do
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
 
     end
   end
-  resources :sessions
+  # resources :sessions
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
