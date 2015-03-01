@@ -13,15 +13,43 @@ class Scheduler
 	#			Section = sec_code: [ignore,ignore,ignore,[[rm1,[time1],[time2],...],[rm2,[time1],[time2]],...]]
 	
 	#Convert to correct input type
-		formatted_course_list = {}
+		formatted_course_list = []
 		@course_list.each do |course_code, section_list|
-			formatted_course_list[course_code] = {}
+			course_object = [course_code,[Array.new,Array.new,Array.new]]
+			section_list.each do |section_code, section_data|
+				section_object = [section_code]
+				section_data[3].each do |time_list|
+					time_list[1..-1].each do |time|
+						section_object.push(time)
+					end
+				end
+
+				#Add section to list
+				if section_code[0] == 'L'
+					course_object[1][0].push(section_object)
+				elsif section_code[0] == 'P'
+					course_object[1][1].push(section_object)
+				elsif section_code[0] == 'T'
+					course_object[1][2].push(section_object)
+				end
+			end
 			
+			if course_object[1][2].empty?
+				course_object[1].delete_at(2)
+			end
+			if course_object[1][1].empty?
+				course_object[1].delete_at(1)
+			end
+			if course_object[1][0].empty?
+				course_object[1].delete_at(0)
+			end
+
+			formatted_course_list.push(course_object)
 		end
-		optimal_schedule = schedule_all(@course_list)
+		optimal_schedule = schedule_all(formatted_course_list)
 		#Convert output to hash
 		@cost = optimal_schedule['cost']
-		@course_list.each_with_index do |course_array, course_index|
+		formatted_course_list.each_with_index do |course_array, course_index|
 			key = course_array[0]
 			section_codes = []
 			course_array[1].each_with_index do |section_array, section_index|				

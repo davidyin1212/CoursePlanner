@@ -6,8 +6,8 @@ require 'pg'
 #run_python_scraper = `python scraper.py`
 
 #Partial list for testing
-course_json_file = File.read('master_timetable_partial.json')
-#course_json_file = File.read('all_courses.json')
+#course_json_file = File.read('master_timetable_partial.json')
+course_json_file = File.read('all_courses.json')
 
 data_hash = JSON.parse(course_json_file)
 
