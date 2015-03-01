@@ -18,11 +18,11 @@ class Course:
     #Course object for storing course info
     def __init__(self,step=0,code = ''):
         self.data = {}
-        self.data['code'] = code
+        self.data['course_code'] = code
         #Step: 1=have code, 2=have name, 3=have description
         self.step = step
-        self.data['description'] = ''
-        self.data['name'] = ''
+        self.data['course_description'] = ''
+        self.data['course_name'] = ''
         self.data['LEC'] = 0
         self.data['TUT'] = 0
         self.data['PRA'] = 0
@@ -30,7 +30,7 @@ class Course:
     
     def add_to_desc(self, data):
         #Append string 'data' to 'description'
-        self.data['description'] += data
+        self.data['course_description'] += data
     
     def set_field(self, field, data):
         self.data[field] = data
@@ -75,7 +75,7 @@ class CalendarPageParser(hp.HTMLParser):
                 #Make sure course does nto already exist
                 duplicate = 0
                 for course in self.courses:
-                    if course.get_field('code') == course_code['name']:
+                    if course.get_field('course_code') == course_code['name']:
                         duplicate = 1
                     elif len(course_code['name'])>10:
                         duplicate = 1
@@ -150,7 +150,7 @@ class CalendarPageParser(hp.HTMLParser):
                 self.active_course.set_field('SEM',-1)
                 data = data.replace('[TBA]','')
                 
-            self.active_course.set_field('name', data)
+            self.active_course.set_field('course_name', data)
         elif self.active_course.step == 2:
             self.active_course.add_to_desc(data)
         elif self.active_course.step == 3:
@@ -190,7 +190,7 @@ class CalendarPageParser(hp.HTMLParser):
         courses = {}
         #Returns a json string of the courses
         for course in self.courses:
-            courses[course.get_field('code')] = course.get_data()
+            courses[course.get_field('course_code')] = course.get_data()
         return courses
     
     def output_json_string(self):
@@ -446,7 +446,7 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
                 #Make sure course does nto already exist
                 duplicate = 0
                 for course in self.courses:
-                    if course.get_field('code') == course_code['name']:
+                    if course.get_field('course_code') == course_code['name']:
                         duplicate = 1
                 if duplicate:
                     self.active_course = Course(0)
@@ -504,7 +504,7 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
                 self.active_course.set_field('SC',FSY_info)
                 self.active_course.step = 3            
         elif self.active_course.step == 4:
-            self.active_course.set_field('name',data)
+            self.active_course.set_field('course_name',data)
             self.active_course.step = 5
         elif self.active_course.step == 6:
             LPTS_info = data.split('/')
@@ -552,7 +552,7 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
         courses = {}
         #Returns a json string of the courses
         for course in self.courses:
-            courses[course.get_field('code')] = course.get_data()
+            courses[course.get_field('course_code')] = course.get_data()
         return courses
     
     def output_json_string(self):
@@ -793,9 +793,9 @@ class TestParser(hp.HTMLParser):
 if __name__ == '__main__':
     pass
     #Testing
-#    x = TimetableDirectoryParser()
-#    x.fetch()    
-#    x.write_to_file_partial('master_timetable_partial.json')
+    x = TimetableDirectoryParser()
+    x.fetch()    
+    x.write_to_file_partial('master_timetable_partial.json')
 #    x.write_to_file('master_timetable.json')
 #    x = EngineeringCalendarPageParser()
 #    x.fetch_url()
