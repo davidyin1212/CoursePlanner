@@ -1,0 +1,48 @@
+list of requirements, some requirements may be based on previous requirements. Evaluate in order (no requirement may be based on a later requirement):
+
+ex. Aboriginal studies specialist
+0. Prereq: 4 CR
+1. ABS201Y1 and ABS390H1 and ABS460H1 and ABS300Y1
+2. ABS210Y1 or ABS220Y1 or (ABS230H1 and ABS231H1)
+3. ABS301Y1 or ABS351Y1
+4. 4 CR from Group A
+5. 1 CR from (Group A and Group B)
+6. 2 CR at 300 from 4 and 5
+7. 0.5 CR at 400 from 4 and 5
+8. 10 CR (may overlap with 1,2,3,4,5)
+9. 1 CR from 8
+
+ex. Computer Science Specialist
+0. Prereq: 4 CR
+1. ((CSC108H1 and CSC148H1) or CSC150H1) and ((CSC165H1 and CSC236H1) or CSC240H1)) and ((MAT135H1 and MAT136H1) or MAT137Y1 or MAT157Y1)
+2. CSC207H1 and  CSC209H1 and CSC258H1 and (CSC263H1 or CSC265H1) and (MAT221H1 or MAT223H1 or MAT240H1) and (STA247H1 or STA255H1 or STA257H1)
+3. CSC369H1 and (CSC373H1 or CSC375H1)
+4. 5 CR from (CSC3XXXX and CSC4XXXX and BCB410H1 and BCB420H1 and BCB430Y1 and ECE385H1 and ECE489H1 and MAT224H1 and (MAT235Y1 or MAT237Y1 or MAT257Y1) and MAT3XXXX and MAT4XXXX and STA3XXXX and STA4XXXX not(MAT329H1 and MAT390H1 and MAT391H1 and STA248H1 and STA261H1))
+5. not 2.5 CR from (MATXXXXX and STAXXXXX) from 4
+6. 1.5 CR from (ECE4XXXX, BCB4XXXX, CSC4XXXX) from 4
+7. not 1.5 CR from (CSC490H1 and CSC491H1 and CSC494H1 and CSC495H1 and BCB430Y1) from 4
+8. CSC301H1 or CSC318H1 or CSC404H1 or CSC411H1 or CSC418H1 or CSC420H1 or CSC428H1 or CSC454H1 or CSC485H1 or CSC490H1 or CSC491H1 or CSC494H1 or CSC495H1 (may overlap with 4)
+
+ex. Engineering Science - ECE option
+1. CIV102H1 and CSC180H1 and ESC101H1 and ESC103H1 and MAT194H1 and PHY180H1 and CSC190H1 and ECE159H1 and ESC102H1 and MAT185H1 and MAT195H1 and MSE160H1
+2. AER210H1 and CHE260H1 and ECE253H1 and ESC203H1 and MAT292H1 and PHY293H1 and AER201H1 and BME205H1 and ECE259H1 and PHY294H1 and STA286H1
+3. 0.5 CR from HSS
+4. 1.5 CR from CS (may overlap with 3)
+5. CHE374H1 and ECE349H1 and ECE352H1 and ECE355H1 and ECE360H1	and MAT389H1 and ESC301H1 and ECE353H1 and ECE356H1 and ESC301H1
+6. 1.5 CR from (ECE350H1 and ECE354H1 and ECE357H1 and ECE358H1 and ECE363H1)
+7. not 1.0 CR from (ECE350H1 and ECE358H1) from 6
+8. 1.5 CR ECE_Electives
+9. 1.0 CR (ECE_electives and technical_electives)
+10. ECE532H1 or ESC470H1 or ESC472H1
+
+ex. Computer Engineering
+1. APS105H1 and APS111H1 and APS150H1 and CIV100H1 and ECE101H1 and MAT186H1 and MAT188H1 and APS104H1 and APS112H1 and ECE110H1 and MAT187H1 and MIE100H1
+2. ECE201H1 and ECE212H1 and ECE241H1 and ECE244H1 and MAT290H1 and MAT291H1 and ECE216H1 and ECE221H1 and ECE231H1 and ECE243H1 and ECE297H1
+3. ECE472H1 and ECE496Y1
+4. 2.0 CR from ((ECE335H1 or ECE318H1) and (ECE314H1 or ECE320H1) and (ECE331H1 or ECE334H1) and (ECE311H1 or ECE316H1) and (ECE361H1 or ECE342H1) and (ECE344H1 or ECE345H1))
+5. 2 of (0.5 CR from (ECE335H1 or ECE318H1) and 1.0 CR from ece_1) or (0.5 CR from (ECE314H1 or ECE320H1) and 1.0 CR from ece_2) or (0.5 CR from (ECE331H1 or ECE334H1) and 1.0 CR from ece_3) or 0.5 CR from (ECE311H1 or ECE316H1) and 1.0 CR from ece_4) or (0.5 CR from (ECE361H1 or ECE342H1) and 1.0 CR from ece_5) or 0.5 CR from (ECE344H1 or ECE345H1) and 1.0 CR from ece_6)
+6. 1.5 CR from technical_electives_ece
+7. 0.5 CR from SciMath
+8. 1.0 CR from HSS
+9. 2.0 CR from CS (may overlap with 5)
+10. 0.5 CR any
