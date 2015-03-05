@@ -58,11 +58,16 @@
 
 <br>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %> |
+<% if current_user == User.find(params[:id]) %>
 
-<%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> 
-<%= link_to 'Add Courses', addCoursePage_user_path(@user) %> 
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+
+  <%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> |
+  <%= link_to 'Add Courses', addCoursePage_user_path(@user) %>
+
+<% else %>
+  <%= link_to 'Back', user_path(current_user) %>
+<% end %>
 
 
 

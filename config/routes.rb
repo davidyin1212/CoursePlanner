@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  get 'session/index'
+
+  devise_for :users, controllers: { registrations: "registrations" }
   # get 'log_in' => 'sessions#new', :as => 'log_in'
   # get 'log_out' => 'sessions#destroy', :as => 'log_out' 
   
@@ -41,7 +43,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'landing#index'
+  root 'session#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
