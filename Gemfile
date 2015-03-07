@@ -35,6 +35,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
 
+# for course search bar
+gem 'select2-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

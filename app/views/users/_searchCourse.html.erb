@@ -1,0 +1,34 @@
+<head>
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+      var data = new Array();
+      var index = 0;
+      <% @courses.each do |course| %>
+        var el = {id: index, text: '<%= course.course_code %>' + ': ' + '<%= course.course_name %>'};
+        data.push(el);
+        index++;
+      <% end %>
+      $.each(data,function(index,value){
+        $('.js-example-data-array').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
+      });
+      
+      $(".js-example-data-array").select2({
+        placeholder: "Search course",
+      });
+
+      $('.js-example-data-array').change(function(){
+        $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+      });
+    });
+  </script>
+</head>
+
+<h1>Search Course</h1>
+
+
+<select class="js-example-data-array" style="width:30%">
+  <option></option>
+</select>
+
+<div id="course_added"><br></div>
