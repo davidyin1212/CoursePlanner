@@ -118,7 +118,7 @@ class UsersController < ApplicationController
 
     redirect_to @user
   end
-
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
