@@ -118,7 +118,19 @@ class UsersController < ApplicationController
 
     redirect_to @user
   end
-  
+
+  def displayCourses
+
+      @mycourses = User.find(params[:user_id]).courses.all
+      #if Winter or Fall
+      @mycourses.each do |mycourse|
+        for meeting in mycourse.Wintersections["L0101"][3]
+          puts(meeting)
+        end
+
+      end
+
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
