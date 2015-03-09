@@ -1,6 +1,6 @@
 require 'FileUtils'
 FileUtils.pwd
-FileUtils.cd 'C=>\Users\Owner\Documents\GitHub\CoursePlanner\scripts'
+FileUtils.cd 'C:\Users\Owner\Documents\GitHub\CoursePlanner\scripts'
 load 'Scheduler.rb'
 
 Scheduler.new(nil).calculate_overlap([['ECE446',['M',12,15],['M',12,14],['T',12,15]],['ECE521',['M',11,13],['T',14,16],['R',10,11]]])

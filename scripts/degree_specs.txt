@@ -1,5 +1,12 @@
 list of requirements, some requirements may be based on previous requirements. Evaluate in order (no requirement may be based on a later requirement):
 
+reqs: x from the following courses
+
+Class Requirement:
+	self.courses_used
+	self.fulfilled
+	#Can get other requirements attached to this requirement
+
 ex. Aboriginal studies specialist
 0. Prereq: 4 CR
 1. ABS201Y1 and ABS390H1 and ABS460H1 and ABS300Y1
