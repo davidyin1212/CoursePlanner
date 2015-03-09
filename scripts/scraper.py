@@ -384,6 +384,23 @@ class TimetableDirectoryParser(hp.HTMLParser):
                     self.courses.setdefault(k,{}).update(v)
 #                self.courses.update(desc_parser.get_course_data())
                 course_codes_visited.append(course_code[0:3])
+    
+    def add_enrolment_info(self):
+        counter = 0
+        for course_code in self.courses.keys():
+            counter += 1
+            print counter
+            #Get enrolment info
+            base_url_1 = 'http://coursefinder.utoronto.ca/course-search/search/courseInquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId='
+            base_url_2 = '20149#.VPzuPvnF_ps'
+            course_finder_url = base_url_1 + course_code + ('F' if course_code[6] == 'H' else 'Y') + base_url_2
+            course_finder = CourseFinderParser()
+            course_finder.fetch_url(course_finder_url)
+            enrolment_data = course_finder.get_data()
+            for section in enrolment_data.keys():
+                if section in self.courses[course_code].get('wintersections',{}).keys():
+                    self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['CurrentEnrolment'])
+                    self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['MaxEnrolment'])
 
     def output_json_string(self):
         #Returns a json string of the courses
@@ -416,8 +433,9 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
         #Get html from website with url = url
         self.url = 'http://www.apsc.utoronto.ca/Calendars/2014-2015/Course_Descriptions.html'
         h = hl.Http(".cache")
-        (resp, content) = h.request(self.url)#,
-                        #headers={'cache-control':'no-cache'} )
+        print 'start1'
+        (resp, content) = h.request(self.url )
+        print 'start1'
         self.active_course = Course()
         self.has_active_course = 0;
         self.courses = []
@@ -573,8 +591,9 @@ class EngineeringTimetableParser(hp.HTMLParser):
         #Get html from website with url = url
         self.url = 'http://www.apsc.utoronto.ca/timetable/'+session+'.html'
         h = hl.Http(".cache")
-        (resp, content) = h.request(self.url)#,
-                        #headers={'cache-control':'no-cache'} )
+        print 'start'
+        (resp, content) = h.request(self.url )
+        print 'start'
         self.session= session
         self.in_table = 0
         self.in_row = 0
@@ -761,13 +780,16 @@ class CourseFinderParser(hp.HTMLParser):
     def handle_data(self,data):
         stripped_data = re.sub('[^A-Za-z0-9]+', '', data).upper()
         if self.relevant_field == 'Section':
-            self.section = stripped_data
+            self.section = stripped_data[0] + stripped_data[3:]
             self.data[self.section] = {'Section' : self.section}
         elif self.relevant_field == 'MaxEnrolment':
             self.data[self.section]['MaxEnrolment'] = stripped_data
         elif self.relevant_field == 'CurrentEnrolment':
             self.data[self.section]['CurrentEnrolment'] = stripped_data
-
+            
+    def get_data(self):
+        return self.data
+        
     def output_json_string(self):
         #Returns a json string of the courses
         return json.dumps(self.data)
@@ -793,9 +815,9 @@ class TestParser(hp.HTMLParser):
 if __name__ == '__main__':
     pass
     #Testing
-    x = TimetableDirectoryParser()
-    x.fetch()    
-    x.write_to_file_partial('master_timetable_partial.json')
+#    x = TimetableDirectoryParser()
+#    x.fetch()    
+#    x.write_to_file_partial('master_timetable_partial.json')
 #    x.write_to_file('master_timetable.json')
 #    x = EngineeringCalendarPageParser()
 #    x.fetch_url()
@@ -809,12 +831,16 @@ if __name__ == '__main__':
 #    out_file.write(json.dumps(x.courses, ensure_ascii=False))
 #    out_file.close
 
+
     x = TimetableDirectoryParser()
     x.fetch()    
     x.process_urls()
+    print 'part 1 complete'
     y = EngineeringTimetableDirectoryParser()
     y.fetch_data()
+    print 'part 2 complete'
     x.courses.update(y.courses)
+    x.add_enrolment_info()
     out_file = open('all_courses.json', 'wb')
     out_file.write(json.dumps(x.courses, ensure_ascii=False))
     out_file.close()

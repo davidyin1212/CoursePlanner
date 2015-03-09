@@ -72,7 +72,7 @@ class DegreesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def degree_params
-      params.require(:degree).permit(:degree_name, :degree_type)
+      params.require(:degree).permit(:degree_name, :degree_type, :degree_requirements)
     end
 end
 	
