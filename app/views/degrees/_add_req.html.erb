@@ -1,0 +1,49 @@
+<head>
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+      var data = new Array();
+      var index = 0;
+      <% @courses.each do |course| %>
+        var el = {id: index, text: '<%= course.course_code %>' + ': ' + '<%= course.course_name %>'};
+        data.push(el);
+        index++;
+      <% end %>
+      $.each(data,function(index,value){
+        $('.js-example-data-array-multiple').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
+      });
+      
+      $(".js-example-data-array-multiple").select2({
+        placeholder: "Search course",
+      });
+      $('.js-example-data-array-multiple').change(function(){
+        $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+      });
+      
+      $(".js-example-basic-single-numbers").select2();
+      });
+    });
+  </script>
+</head>
+
+<h1>Search Course</h1>
+
+
+<select class="js-example-data-array-multiple" multiple="multiple" style="width:30%">
+  <option></option>
+</select>
+
+<select class="js-example-basic-single-numbers">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+</select>
+
+<div id="req_added"><br></div>

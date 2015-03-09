@@ -9,14 +9,14 @@ class Requirement
 		@fulfilled = false
 	end
 
-	# def initialize_from_string(req_string)
+	def initialize_from_string(req_string)
 		# #Initialize with a list of required courses and the number of courses needed to fulfil this req
-		# req_array = eval(req_string)
-		# @course_list = course_list
-		# @courses_added = []
-		# @num_courses = req_array[0]
-		# @fulfilled = false
-	# end
+		req_array = eval(req_string)
+		@course_list = req_array[1..-1]
+		@courses_added = []
+		@num_courses = req_array[0]
+		@fulfilled = false
+	end
 	
 	def add_courses_taken(courses_to_add)
 		#Add a course taken
