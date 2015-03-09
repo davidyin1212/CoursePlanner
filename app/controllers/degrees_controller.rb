@@ -62,7 +62,11 @@ class DegreesController < ApplicationController
     end
   end
   
-
+	def add_req
+		#Add requirement to degree
+		#Get current reqs
+		@degree.requirements.push()
+	end
 
   private
     # Use callbacks to share common setup or constraints between actions.
