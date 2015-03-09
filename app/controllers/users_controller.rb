@@ -1,3 +1,4 @@
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
@@ -12,8 +13,11 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
     @courses = Course.all
+
   end
+
 
   # GET /users/new
   def new
@@ -121,14 +125,37 @@ class UsersController < ApplicationController
 
   def displayCourses
 
+    require 'ostruct'
+
+
       @mycourses = User.find(params[:user_id]).courses.all
-      #if Winter or Fall
-      @mycourses.each do |mycourse|
-        for meeting in mycourse.Wintersections["L0101"][3]
-          puts(meeting)
-        end
+
+      timetable = Array.new
+
+     @mycourses.each_with_index  do |mycourse,i|
+      for meeting in mycourse.Wintersections["L0101"][3]
+        meet = OpenStruct.new
+        meet.place = meeting[0]
+        meet.day  = meeting[1][0]
+        meet.start_time  = meeting[1][1]
+        meet.end_time = meeting [1][2]
+        meet.payload = mycourse.course_name
+        timetable << meet
 
       end
+     end
+
+
+      timetable.sort! { |a,b| a.start_time <=> b.start_time }
+
+      ##display timetable
+      puts timetable
+
+      timetable.clear
+
+
+
+
 
   end
 
