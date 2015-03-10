@@ -19,6 +19,9 @@
         <td><%= link_to 'Add Degree', addDegree_user_path(user_id: @user.id, id: degree) %></td>
       </tr>
     <% end %>
+    <tr>
+      <td><%= link_to 'Create Degree', new_degree_path(user_id: @user.id) %></td>
+    </tr>
   </tbody>
 </table>
 

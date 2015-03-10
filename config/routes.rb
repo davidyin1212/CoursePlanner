@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     member do
       get 'addCoursePage'
       get 'addCourse'
+      patch 'addReq'
     end
   end
 

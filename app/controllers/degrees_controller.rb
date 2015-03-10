@@ -15,17 +15,20 @@ class DegreesController < ApplicationController
 
   # GET /degrees/new
   def new
+    @courses = Course.all
     @degree = Degree.new
   end
 
   # GET /degrees/1/edit
   def edit
+    @courses = Course.all
   end
 
   # POST /degrees
   # POST /degrees.json
   def create
     @degree = Degree.new(degree_params)
+    @degree.update({:degree_requirements => []})
 
     respond_to do |format|
       if @degree.save
@@ -61,12 +64,17 @@ class DegreesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # PATCH/PUT /degrees/1
+  # PATCH/PUT /degrees/1.json
+  def addReq
+    #Add requirement to degree
+    #Get current reqs
+    @degree.update({:degree_name => "1111111111"})
+    @degree.degree_requirements.push([params[:num_courses]]+params[course_list])
+  end
   
-	def add_req
-		#Add requirement to degree
-		#Get current reqs
-		@degree.requirements.push()
-	end
+  helper_method :addReq
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -76,7 +84,7 @@ class DegreesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def degree_params
-      params.require(:degree).permit(:degree_name, :degree_type, :degree_requirements)
+      params.require(:degree).permit(:degree_name, :degree_type, :degree_requirements, :num_courses, :course_list)
     end
 end
 	

@@ -53,8 +53,9 @@ ActiveRecord::Schema.define(version: 20150228182146) do
   create_table "degrees", force: :cascade do |t|
     t.string   "degree_name"
     t.integer  "degree_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.text     "degree_requirements"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "degrees_users", id: false, force: :cascade do |t|
