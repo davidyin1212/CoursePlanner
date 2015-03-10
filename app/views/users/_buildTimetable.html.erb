@@ -1,0 +1,148 @@
+<%
+
+   $rowspan = [1, 1, 1, 1, 1]
+
+   $day_array = ['M', 'T', 'W', 'R', 'F']
+
+   $found = 0
+
+   $overall_payload = ""
+
+   list_object = @timeTableEntries
+%>
+
+<%-#list_object must be sorted by start_time. Otherwise wont work. -%>
+
+<td><%= list_object %> </td>
+
+<table class="sched" width="100%" cellpadding="0" cellspacing="0">
+  <tr height="20">
+    <td class="time">&nbsp;</td>
+    <td align="center" class="day">Monday</td>
+    <td align="center" class="day">Tuesday</td>
+    <td align="center" class="day">Wednesday</td>
+    <td align="center" class="day">Thursday</td>
+    <td align="center" class="day">Friday</td>
+  </tr>
+
+
+
+  <% (1..18).each do |half_hour_index| %>
+      <tr height="30">
+
+        <td width="50" class="time">
+          <% if half_hour_index.even? %>
+              <%= (9 + ((half_hour_index-1)/2).floor).to_s() + ":30" %>
+          <% else %>
+              <%= (9 + ((half_hour_index-1)/2).floor).to_s() + ":00" %>
+          <% end %>
+        </td>
+
+        <% ( 0..4 ).each do |day_index| %>
+            <%-#The process: check if for this <tr/> and this day, the td with a rowspan greater than 2 has already been made. -%>
+
+            <%-#If so, no need to search, just decrement the rowspan, and go on to next day.	  -%>
+
+            <%-#Else, this hour block is free to be added to: go through the list of courses for this day and this hour block. -%>
+            <%-#If didn't find same starting time: print blank, move on. -%>
+
+            <%-#If found. Check for conflicts -%>
+            <%-#If no conflicts: print normally time_start:00 - time_end:00 </br> payload-%>
+            <%-#set rowspan as 2*time difference-%>
+
+            <%-#If found: Will need to calculate overall payload. This will have "overall" rowspan to be determined.-%>
+            <%-#THe payload will be time_start1:00 - time_end1:00 <br/> payload1 (<br/>) until next overlap time_start2:00 - time_end2:00 <br/> payload2 -%>
+
+            <% if $rowspan[day_index] > 1 %>
+                <% $rowspan[day_index] = $rowspan[day_index] - 1 %>
+
+
+            <% else %>
+                <% $found = 0 %>
+
+                <% list_object.each do |entry| %>
+
+                    <% if entry.day == $day_array[day_index] and entry.start_time == (9 + ((half_hour_index-1)/2).floor) %>
+                        <% $found = 1 %>
+
+                        <%-#Found a matching entry. Will now need to scan all duration hours for start_time conflicts. -%>
+                        <%-#Grow rowspan[day_index] as we go.-%>
+                        <%-#Grow overall payload as described above. -%>
+
+                        <%-#A conflict can extend hours still to be checked.-%>
+
+                        <% $overall_payload = "" %>
+                        <% $overall_payload = $overall_payload + entry.start_time.to_s + ":00" + " - " + entry.end_time.to_s + ":00" +
+                                                "<br/>" + entry.payload + "<br/>"
+
+                           $rowspan[day_index] = 2*(entry.end_time - entry.start_time)
+                        %>
+
+                        <%-#A 9-12 class means need to run following loop on hours 10, 11-%>
+
+
+                        <% list_object_minor = list_object.drop(1+list_object.index(entry)) %>
+
+
+
+                        <% conflict_array = entry.start_time .. entry.end_time - 1 %>
+
+
+                        <% for possible_conflict_hour in conflict_array%>
+
+                            <% list_object_minor.each do |entry_minor| %>
+
+                                <% if entry_minor.day == $day_array[day_index] and entry_minor.start_time == possible_conflict_hour %>
+
+                                    <% $overall_payload = $overall_payload + entry_minor.start_time.to_s + ":00" + " - " + entry_minor.end_time.to_s + ":00" +
+                                            "<br/>" + entry_minor.payload + "<br/>"
+
+                                       $rowspan[day_index] = 2*(entry_minor.end_time - entry.start_time)
+
+                                    %>
+
+                                    <% list_object_minor = list_object_minor.drop(1+list_object_minor.index(entry_minor)) %>
+
+                                    <%-#Now we need to modify our conflict_arrray if there are any extras to check.-%>
+
+                                    <% conflict_array = possible_conflict_hour + 1 .. entry_minor.end_time - 1    %>
+
+
+                                <% end %>
+
+
+                            <% end %>
+
+
+                        <% end %>
+
+                        <%-#Actual printing -%>
+                        <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> class=""> <%= raw($overall_payload) %> </td>
+
+                        <% break %>
+
+
+
+                    <% end %>
+
+
+                <% end %>
+
+                <% if $found == 0 %>
+                <td class="hourEmpty">&nbsp;</td>
+                <% end %>
+
+            <% end %>
+
+
+
+         <% end %>
+
+
+      </tr>
+
+  <% end %>
+
+
+
+</table>
