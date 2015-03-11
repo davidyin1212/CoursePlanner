@@ -2,6 +2,7 @@
     <script type="text/javascript">
     
     $(document).ready(function() {
+      var coursesArray = <%= @courses.to_json.html_safe %>;
       var data = new Array();
       var index = 0;
       <% @courses.each do |course| %>
@@ -18,9 +19,30 @@
       });
 
       $('.js-example-data-array').change(function(){
-        $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+        //$('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+        var selectedCourse = $(this).find('option:selected').html();
+        var searchedCourse = findCourse(coursesArray, selectedCourse);
+        //$(".panel-title").text(selectedCourse);
+        //$(".panel-body").text(findCourse(coursesArray, selectedCourse).course_description);
+        //$("#accordion").removeClass('hidden');
+
+        window.location.href = "/users/" + searchedCourse.id + "/addCourse?" + "user_id=" + '<%= @user.id %>';
+        /*$.ajax({
+            url:   "/users/" + searchedCourse.id + "/addCourse",
+            data:  {'user_id': '<%= @user.id %>'},
+        }).done(function( msg ) {
+          alert( "Data Saved: " + msg );
+        });*/
       });
     });
+
+    function findCourse(courses, selectedCourse){
+      for(i=0; i<courses.length; i++){
+        if(selectedCourse=== (courses[i].course_code + ': ' + courses[i].course_name))
+          return courses[i];
+      }
+      return null;
+    }
   </script>
 </head>
 
@@ -32,3 +54,27 @@
 </select>
 
 <div id="course_added"><br></div>
+
+<div class="panel-group" id="accordion">
+  <% @user.courses.each do |course| %>
+      <div class="panel panel-primary" style="width:70%">
+        <div class="panel-heading"> 
+          <span class="panel-title">
+            <%= course.course_code %>: <%= course.course_name%>
+            
+          </span>
+          <a data-toggle="collapse" data-parent="#accordion"
+                href="#accordion<%= course.id %>" style="color:white;float:right">
+              View course description
+            </a>
+        </div>
+        <div id="accordion<%= course.id %>" class="panel-collapse collapse">
+          <div class="panel-body">
+              <%= course.course_description %>
+            </div>
+        </div>
+      </div>
+    <% end %>
+  
+      
+</div>
