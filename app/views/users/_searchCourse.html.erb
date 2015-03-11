@@ -49,7 +49,7 @@
 <h1>Search Course</h1>
 
 
-<select class="js-example-data-array" style="width:30%">
+<select class="js-example-data-array" style="width:23%">
   <option></option>
 </select>
 
@@ -57,14 +57,13 @@
 
 <div class="panel-group" id="accordion">
   <% @user.courses.each do |course| %>
-      <div class="panel panel-primary" style="width:70%">
+      <div class="panel panel-primary" style="width:23%">
         <div class="panel-heading"> 
-          <span class="panel-title">
-            <%= course.course_code %>: <%= course.course_name%>
-            
-          </span>
+          <%= course.course_code %>:
+          <%= link_to 'x', remCourse_user_path(user_id: @user, course_id: course), {data: { confirm: 'Are you sure?' }, :style=>"color:white;float:right"} %>
+          <p><%= course.course_name%></p>
           <a data-toggle="collapse" data-parent="#accordion"
-                href="#accordion<%= course.id %>" style="color:white;float:right">
+                href="#accordion<%= course.id %>" style="color:white">
               View course description
             </a>
         </div>
