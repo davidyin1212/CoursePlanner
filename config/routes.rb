@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     member do
       get 'addCoursePage'
       get 'addCourse'
+      get 'edit_page'
+
       patch 'addReq'
     end
   end

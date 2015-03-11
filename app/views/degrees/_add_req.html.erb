@@ -10,13 +10,13 @@
         index++;
       <% end %>
       $.each(data,function(index,value){
-        $('.js-example-data-array').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
+        $('.js-example-data-array-multiple').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
       });
       
-      $(".js-example-data-array").select2({
+      $(".js-example-data-array-multiple").select2({
         placeholder: "Search course",
       });
-      $('.js-example-data-array').change(function(){
+      $('.js-example-data-array-multiple').change(function(){
         $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
       });
     });
@@ -25,24 +25,14 @@
 
 <h1>Add requirement</h1>
 
+<% course_list ='' %>
+<% num_courses =0 %>
 
-<select class="js-example-data-array" multiple="multiple" id = "course_list" name = "course_list" style="width:30%">
-  <option></option>
-</select>
+  <%= select(params, "course_list", {},{}, {class: "js-example-data-array-multiple", id: "course_list", multiple: true}) %>
+  <%= select(params, "num_courses", {"1" => 1,"2" => 2,"3" => 3,"4" => 4,"5" => 5}, class: "js-example-data-array-multiple", id: "num_courses") %>
 
-<select class="js-example-numbers" id = "num_courses" name = "num_courses" style="width:30%">
-  <option value = "1">1</option>
-  <option value = "2">2</option>
-  <option value = "3">3</option>
-  <option value = "4">4</option>
-  <option value = "5">5</option>
-  <option value = "6">6</option>
-  <option value = "7">7</option>
-  <option value = "8">8</option>
-  <option value = "9">9</option>
-</select>
 <br>
 
-<%= button_to "Add Requirement", action: "addReq" %>
+<%= button_to "Add Requirement", :action => "addReq", :class => "button", :method => :patch, :params => params  %>
 
 <div id="req_added"><br></div>

@@ -28,7 +28,7 @@ class DegreesController < ApplicationController
   # POST /degrees.json
   def create
     @degree = Degree.new(degree_params)
-    @degree.update({:degree_requirements => []})
+    @degree.update({:degree_requirements => ""})
 
     respond_to do |format|
       if @degree.save
@@ -67,13 +67,22 @@ class DegreesController < ApplicationController
 
   # PATCH/PUT /degrees/1
   # PATCH/PUT /degrees/1.json
+  def edit_page
+    set_degree
+    @courses = Course.all
+  end
+	  
   def addReq
     #Add requirement to degree
     #Get current reqs
-    @degree.update({:degree_name => "1111111111"})
-    @degree.degree_requirements.push([params[:num_courses]]+params[course_list])
+    puts "derpderpderp"
+    @degree.update({:degree_name => "11111"})
+    #@degree.degree_requirements += "[" + params[:num_courses].to_s + "," + params[:course_list].to_s + "]"
+    #@degree.update({:degree_requirements => @degree.degree_requirements + "[" + params[:num_courses].to_s + "," + params[:course_list].to_s + "]"})
+
+    #redirect_to(:back)
   end
-  
+
   helper_method :addReq
 
   private
