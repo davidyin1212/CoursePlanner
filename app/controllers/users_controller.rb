@@ -39,9 +39,9 @@ class UsersController < ApplicationController
 
     timetable.sort! { |a,b| a.start_time <=> b.start_time }
 
-
     ##display timetable
     @timeTableEntries = timetable
+
 
   end
 
@@ -151,6 +151,7 @@ class UsersController < ApplicationController
 
     redirect_to @user
   end
+
 
 
   private
