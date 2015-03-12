@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   def show
 
     @courses = Course.all
-g
+
     require 'ostruct'
 
 
@@ -38,10 +38,6 @@ g
 
 
     timetable.sort! { |a,b| a.start_time <=> b.start_time }
-
-
-
-
 
 
     ##display timetable
@@ -156,18 +152,6 @@ g
     redirect_to @user
   end
 
-  def buildTimetable
-
-
-
-
-
-
-
-
-
-
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
