@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       get 'addCourse'
       get 'edit_page'
 
-      patch 'addReq'
+      get 'addReq'
     end
   end
 

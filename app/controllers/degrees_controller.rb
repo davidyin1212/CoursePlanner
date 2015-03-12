@@ -74,13 +74,9 @@ class DegreesController < ApplicationController
 	  
   def addReq
     #Add requirement to degree
-    #Get current reqs
-    puts "derpderpderp"
-    @degree.update({:degree_name => "11111"})
-    #@degree.degree_requirements += "[" + params[:num_courses].to_s + "," + params[:course_list].to_s + "]"
-    #@degree.update({:degree_requirements => @degree.degree_requirements + "[" + params[:num_courses].to_s + "," + params[:course_list].to_s + "]"})
+    set_degree
+    @degree.update({:degree_requirements => params[:req]})
 
-    #redirect_to(:back)
   end
 
   helper_method :addReq
@@ -93,7 +89,7 @@ class DegreesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def degree_params
-      params.require(:degree).permit(:degree_name, :degree_type, :degree_requirements, :num_courses, :course_list)
+      params.require(:degree).permit(:degree_name, :degree_type, :degree_requirements)
     end
 end
 	

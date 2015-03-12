@@ -1,38 +1,41 @@
-<head>
-    <script type="text/javascript">
-    
-    $(document).ready(function() {
-      var data = new Array();
-      var index = 0;
-      <% @courses.each do |course| %>
-        var el = {id: index, text: '<%= course.course_code %>' + ': ' + '<%= course.course_name %>'};
-        data.push(el);
-        index++;
-      <% end %>
-      $.each(data,function(index,value){
-        $('.js-example-data-array-multiple').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
-      });
-      
-      $(".js-example-data-array-multiple").select2({
-        placeholder: "Search course",
-      });
-      $('.js-example-data-array-multiple').change(function(){
-        $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
-      });
+<div id="cblist">
+</div>
+
+<input type="text" id="txtName" />
+<input type="button" value="Add Requirement" id="btnSave" />
+<input type="button" value="Save Requrements" id="btnSaveDegree" />
+
+<script type="text/javascript">
+$.reqVars = new Object();
+$.reqVars.reqs = [<%#= @degree.degree_requirements %>];
+
+$(document).ready(function() {
+    $('#btnSave').click(function() {
+        addCheckbox($('#txtName').val());
+	$('#txtName').val("");
     });
-  </script>
-</head>
+});
 
-<h1>Add requirement</h1>
+$(document).ready(function() {
+    $('#btnSaveDegree').click(function() {
+        saveRequirements($('#txtName').val());
+    });
+});
 
-<% course_list ='' %>
-<% num_courses =0 %>
+function addCheckbox(name) {
+   var container = $('#cblist');
+   var inputs = container.find('input');
+   var id = inputs.length+1;
+   $.reqVars.reqs[$.reqVars.reqs.length] = name;
 
-  <%= select(params, "course_list", {},{}, {class: "js-example-data-array-multiple", id: "course_list", multiple: true}) %>
-  <%= select(params, "num_courses", {"1" => 1,"2" => 2,"3" => 3,"4" => 4,"5" => 5}, class: "js-example-data-array-multiple", id: "num_courses") %>
+   $('<input />', { type: 'checkbox', id: 'cb'+id, value: name }).appendTo(container);
+   $('<label />', { 'for': 'cb'+id, text: name }).appendTo(container);
+   $('<br>').appendTo(container);
+}
 
-<br>
+function saveRequirements(name) {
+   var reqString = $.reqVars.reqs.join(";");
+   $.ajax({url: "/degrees/"+<%= @degree.id.to_s %>+ "/addReq", data: {"req": reqString}});
+}
 
-<%= button_to "Add Requirement", :action => "addReq", :class => "button", :method => :patch, :params => params  %>
-
-<div id="req_added"><br></div>
+</script>
