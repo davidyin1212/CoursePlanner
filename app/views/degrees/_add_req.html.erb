@@ -7,7 +7,32 @@
 
 <script type="text/javascript">
 $.reqVars = new Object();
-$.reqVars.reqs = [<%#= @degree.degree_requirements %>];
+$.reqVars.reqs = "<%= @degree.degree_requirements.to_s %>".split(";");
+
+if (!($.reqVars.reqs.length == 1 && $.reqVars.reqs[0] == "")) {
+   for (var i=0; i<$.reqVars.reqs.length; i++) {
+      var container = $('#cblist');
+      var inputs = container.find('input');
+      status = $.reqVars.reqs[i][$.reqVars.reqs[i].length - 1];
+      $.reqVars.reqs[i] = $.reqVars.reqs[i].slice(0,$.reqVars.reqs[i].length - 1);
+      if (status == '1') {
+         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), value: $.reqVars.reqs[i], checked: 'checked' }).appendTo(container);
+      } else {
+         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), value: $.reqVars.reqs[i] }).appendTo(container);
+      }
+      $('<label />', { 'for': 'cb'+ (i+1), text: $.reqVars.reqs[i] }).appendTo(container);
+      $('<input />', { type: 'button', value: 'x', db_id: 'db'+(i+1), id: 'btnDelete' }).appendTo(container);
+      $('<br>').appendTo(container);
+   }
+} else {
+   $.reqVars.reqs = new Array;
+}
+
+$.reqVars.deleted = new Array;
+for (var i=0; i<$.reqVars.reqs.length; i++){
+   $.reqVars.deleted[i] = 0;
+}
+
 
 $(document).ready(function() {
     $('#btnSave').click(function() {
@@ -22,20 +47,69 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    $('#btnDelete').click(function() {
+        removeCheckbox($('#db_id').val());
+    });
+});
+
+function removeCheckbox(id) {
+   id_num = parseInt(id.slice(2));
+   $.reqVars.deleted[id_num] = 1;
+   $('#cb'+id_num).remove();
+}
+
 function addCheckbox(name) {
    var container = $('#cblist');
    var inputs = container.find('input');
    var id = inputs.length+1;
    $.reqVars.reqs[$.reqVars.reqs.length] = name;
-
+   $.reqVars.deleted.push(0);
+   
    $('<input />', { type: 'checkbox', id: 'cb'+id, value: name }).appendTo(container);
    $('<label />', { 'for': 'cb'+id, text: name }).appendTo(container);
+   $('<input />', { type: 'button', value: 'x', db_id: 'db'+id, id: 'btnDelete' }).appendTo(container);
    $('<br>').appendTo(container);
 }
 
 function saveRequirements(name) {
-   var reqString = $.reqVars.reqs.join(";");
+   var tempReqs = $.reqVars.reqs.slice(0);
+   for (var i=$.reqVars.reqs.length-1; i>=0; i--) {
+      if ($.reqVars.deleted[i] == 1) {
+         tempReqs.splice(i,1);
+      } else if ($('#cb'+(i+1)).prop('checked')) {
+	 tempReqs[i] += "1";
+      } else {
+	 tempReqs[i] += "0";      
+      }
+   }
+   var reqString = tempReqs.join(";");
    $.ajax({url: "/degrees/"+<%= @degree.id.to_s %>+ "/addReq", data: {"req": reqString}});
 }
 
 </script>
+
+<%= form_for(@degree) do |f| %>
+  <% if @degree.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@degree.errors.count, "error") %> prohibited this degree from being saved:</h2>
+
+      <ul>
+      <% @degree.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :degree_requirements %><br>
+    <%= f.text_field :degree_requirements %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+  
+
+<% end %>
