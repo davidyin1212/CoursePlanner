@@ -16,12 +16,12 @@ if (!($.reqVars.reqs.length == 1 && $.reqVars.reqs[0] == "")) {
       status = $.reqVars.reqs[i][$.reqVars.reqs[i].length - 1];
       $.reqVars.reqs[i] = $.reqVars.reqs[i].slice(0,$.reqVars.reqs[i].length - 1);
       if (status == '1') {
-         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), value: $.reqVars.reqs[i], checked: 'checked' }).appendTo(container);
+         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), data_id: (i+1).toString(), value: $.reqVars.reqs[i], checked: 'checked' }).appendTo(container);
       } else {
-         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), value: $.reqVars.reqs[i] }).appendTo(container);
+         $('<input />', { type: 'checkbox', id: 'cb'+ (i+1), data_id: (i+1).toString(), value: $.reqVars.reqs[i] }).appendTo(container);
       }
-      $('<label />', { 'for': 'cb'+ (i+1), text: $.reqVars.reqs[i] }).appendTo(container);
-      $('<input />', { type: 'button', value: 'x', db_id: 'db'+(i+1), id: 'btnDelete' }).appendTo(container);
+      $('<label />', { 'for': 'cb'+ (i+1), data_id: (i+1).toString(), text: $.reqVars.reqs[i], id: 'lb' + (i+1) }).appendTo(container);
+      $('<input />', { type: 'button', data_id: (i+1).toString(), value: 'x', db_id: 'db'+(i+1), id: 'btnDelete' + (i+1), class: 'btnDelete' }).appendTo(container);
       $('<br>').appendTo(container);
    }
 } else {
@@ -48,28 +48,36 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#btnDelete').click(function() {
-        removeCheckbox($('#db_id').val());
+    $('[id^=btnDelete]').click(function() {
+        removeCheckbox($(this).attr("db_id"));
     });
 });
 
 function removeCheckbox(id) {
    id_num = parseInt(id.slice(2));
-   $.reqVars.deleted[id_num] = 1;
-   $('#cb'+id_num).remove();
+   $.reqVars.deleted[id_num-1] = 1;
+   $('#cb' + id_num).remove();
+   $('#lb' + id_num).remove();
+   $('#btnDelete' + id_num).remove();
 }
 
 function addCheckbox(name) {
    var container = $('#cblist');
    var inputs = container.find('input');
-   var id = inputs.length+1;
+   var id = $.reqVars.reqs.length + 1;
    $.reqVars.reqs[$.reqVars.reqs.length] = name;
    $.reqVars.deleted.push(0);
-   
-   $('<input />', { type: 'checkbox', id: 'cb'+id, value: name }).appendTo(container);
-   $('<label />', { 'for': 'cb'+id, text: name }).appendTo(container);
-   $('<input />', { type: 'button', value: 'x', db_id: 'db'+id, id: 'btnDelete' }).appendTo(container);
+  
+   $('<input />', { type: 'checkbox', data_id:  id.toString(), id: 'cb'+id, value: name }).appendTo(container);
+   $('<label />', { 'for': 'cb'+id, data_id: id.toString(), text: name, id: 'lb' + id }).appendTo(container);
+   $('<input />', { type: 'button', data_id: id.toString(), value: 'x', db_id: 'db'+id, id: 'btnDelete' + id, class: 'btnDelete' }).appendTo(container);
    $('<br>').appendTo(container);
+   $(document).ready(function() {
+      $('[id^=btnDelete]').click(function() {
+         removeCheckbox($(this).attr("db_id"));
+      });
+   });
+
 }
 
 function saveRequirements(name) {
@@ -89,27 +97,3 @@ function saveRequirements(name) {
 
 </script>
 
-<%= form_for(@degree) do |f| %>
-  <% if @degree.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@degree.errors.count, "error") %> prohibited this degree from being saved:</h2>
-
-      <ul>
-      <% @degree.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :degree_requirements %><br>
-    <%= f.text_field :degree_requirements %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-
-  
-
-<% end %>
