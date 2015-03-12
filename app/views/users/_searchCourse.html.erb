@@ -2,6 +2,7 @@
     <script type="text/javascript">
     
     $(document).ready(function() {
+      var coursesArray = <%= @courses.to_json.html_safe %>;
       var data = new Array();
       var index = 0;
       <% @courses.each do |course| %>
@@ -18,17 +19,61 @@
       });
 
       $('.js-example-data-array').change(function(){
-        $('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+        //$('#course_added').append('<p>' + $(this).find('option:selected').html() + '</p>');
+        var selectedCourse = $(this).find('option:selected').html();
+        var searchedCourse = findCourse(coursesArray, selectedCourse);
+        //$(".panel-title").text(selectedCourse);
+        //$(".panel-body").text(findCourse(coursesArray, selectedCourse).course_description);
+        //$("#accordion").removeClass('hidden');
+
+        window.location.href = "/users/" + searchedCourse.id + "/addCourse?" + "user_id=" + '<%= @user.id %>';
+        /*$.ajax({
+            url:   "/users/" + searchedCourse.id + "/addCourse",
+            data:  {'user_id': '<%= @user.id %>'},
+        }).done(function( msg ) {
+          alert( "Data Saved: " + msg );
+        });*/
       });
     });
+
+    function findCourse(courses, selectedCourse){
+      for(i=0; i<courses.length; i++){
+        if(selectedCourse=== (courses[i].course_code + ': ' + courses[i].course_name))
+          return courses[i];
+      }
+      return null;
+    }
   </script>
 </head>
 
 <h1>Search Course</h1>
 
 
-<select class="js-example-data-array" style="width:30%">
+<select class="js-example-data-array" style="width:23%">
   <option></option>
 </select>
 
 <div id="course_added"><br></div>
+
+<div class="panel-group" id="accordion">
+  <% @user.courses.each do |course| %>
+      <div class="panel panel-primary" style="width:23%">
+        <div class="panel-heading"> 
+          <%= course.course_code %>:
+          <%= link_to 'x', remCourse_user_path(user_id: @user, course_id: course), {data: { confirm: 'Are you sure?' }, :style=>"color:white;float:right"} %>
+          <p><%= course.course_name%></p>
+          <a data-toggle="collapse" data-parent="#accordion"
+                href="#accordion<%= course.id %>" style="color:white">
+              View course description
+            </a>
+        </div>
+        <div id="accordion<%= course.id %>" class="panel-collapse collapse">
+          <div class="panel-body">
+              <%= course.course_description %>
+            </div>
+        </div>
+      </div>
+    <% end %>
+  
+      
+</div>

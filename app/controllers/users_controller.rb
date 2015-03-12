@@ -106,6 +106,8 @@ class UsersController < ApplicationController
     if not @course.users.exists?(@user)
       @course.users << @user
     end
+    #render json: @user.courses
+
     redirect_to @user
 
   end
