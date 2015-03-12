@@ -15,9 +15,7 @@ class UsersController < ApplicationController
   def show
 
     @courses = Course.all
-
-
-
+g
     require 'ostruct'
 
 
@@ -45,8 +43,10 @@ class UsersController < ApplicationController
 
 
 
+
     ##display timetable
     @timeTableEntries = timetable
+
   end
 
 
