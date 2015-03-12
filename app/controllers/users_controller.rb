@@ -23,8 +23,14 @@ class UsersController < ApplicationController
 
     timetable = Array.new
 
-    @mycourses.each_with_index  do |mycourse,i|
-      for meeting in mycourse.Wintersections["L0101"][3]
+    @mycourses.each  do |mycourse|
+
+
+      @lecture = mycourse.course_users.first.lecture_id
+
+      if not(@lecture.nil? or @lecture.empty?)
+
+        for meeting in mycourse.Wintersections[@lecture][3]
         meet = OpenStruct.new
         meet.place = meeting[0]
         meet.day  = meeting[1][0]
@@ -32,7 +38,7 @@ class UsersController < ApplicationController
         meet.end_time = meeting [1][2]
         meet.payload = mycourse.course_name
         timetable << meet
-
+        end
       end
     end
 
