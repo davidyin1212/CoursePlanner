@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(version: 20150312041957) do
     t.string   "Sem"
   end
 
+  create_table "courses_users", id: false, force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "courses_users", ["course_id"], name: "index_courses_users_on_course_id", using: :btree
+  add_index "courses_users", ["user_id"], name: "index_courses_users_on_user_id", using: :btree
+
   create_table "degrees", force: :cascade do |t|
     t.string   "degree_name"
     t.integer  "degree_type"
