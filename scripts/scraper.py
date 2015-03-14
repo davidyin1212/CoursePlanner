@@ -323,9 +323,12 @@ class TimetableParser(hp.HTMLParser):
                         
                     self.courses[self.current_code][self.session+'sections'][self.current_section][3].append(tuple([row[6]])+tuple(times))
                     
+                    if times == ['TBA']:
+                        self.courses[self.current_code][self.session+'sections'].pop(self.current_section,None)
+                    
                 #Deal with cancelled class
                 if len(row)>8 and row[8] == 'Cancel':
-                    self.courses[self.current_code][self.session+'sections'][self.current_section] = ['Cancel']
+                    self.courses[self.current_code][self.session+'sections'].pop(self.current_section,None)
                 
         return self.courses
 
@@ -370,13 +373,19 @@ class TimetableDirectoryParser(hp.HTMLParser):
                     
     def process_urls(self):
         #Get all timetable info
+        counter = 0
         for url in self.urls:
+            counter += 1
+            print counter
             new_parser = TimetableParser()
             new_parser.fetch_url(url,'winter')
             self.courses.update(new_parser.process_rows())
         #Get all course info
         course_codes_visited = []
+        counter = 0
         for course_code in self.courses.keys():
+            counter += 1
+            print counter
             if course_code[0:3] not in course_codes_visited:
                 desc_parser = CalendarPageParser()
                 desc_parser.fetch_url(self.base_path_cd + course_code[0:3].lower() + '.htm')
@@ -392,15 +401,32 @@ class TimetableDirectoryParser(hp.HTMLParser):
             print counter
             #Get enrolment info
             base_url_1 = 'http://coursefinder.utoronto.ca/course-search/search/courseInquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId='
-            base_url_2 = '20149#.VPzuPvnF_ps'
-            course_finder_url = base_url_1 + course_code + ('F' if course_code[6] == 'H' else 'Y') + base_url_2
-            course_finder = CourseFinderParser()
-            course_finder.fetch_url(course_finder_url)
-            enrolment_data = course_finder.get_data()
-            for section in enrolment_data.keys():
-                if section in self.courses[course_code].get('wintersections',{}).keys():
-                    self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['CurrentEnrolment'])
-                    self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['MaxEnrolment'])
+            base_url_2f = 'F20149#'
+            base_url_2w = 'S20151#'
+            if 'fallsections' in self.courses[course_code]:
+                course_finder_url = base_url_1 + course_code + base_url_2f
+                course_finder = CourseFinderParser()
+                course_finder.fetch_url(course_finder_url)
+                enrolment_data = course_finder.get_data()
+                for section in self.courses[course_code].get('fallsections',{}).keys():
+                    if section in enrolment_data.keys():
+                        self.courses[course_code]['fallsections'][section].append(enrolment_data[section]['CurrentEnrolment'])
+                        self.courses[course_code]['fallsections'][section].append(enrolment_data[section]['MaxEnrolment'])
+                    else:
+                        self.courses[course_code]['fallsections'][section].append('')
+                        self.courses[course_code]['fallsections'][section].append('')
+            if 'wintersections' in self.courses[course_code]:
+                course_finder_url = base_url_1 + course_code + base_url_2w
+                course_finder = CourseFinderParser()
+                course_finder.fetch_url(course_finder_url)
+                enrolment_data = course_finder.get_data()
+                for section in self.courses[course_code].get('wintersections',{}).keys():
+                    if section in enrolment_data.keys():
+                        self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['CurrentEnrolment'])
+                        self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['MaxEnrolment'])
+                    else:
+                        self.courses[course_code]['wintersections'][section].append('')
+                        self.courses[course_code]['wintersections'][section].append('')
 
     def output_json_string(self):
         #Returns a json string of the courses
@@ -671,7 +697,7 @@ class EngineeringTimetableParser(hp.HTMLParser):
                 if self.current_code not in self.courses.keys():
                     self.courses[self.current_code] = {self.session+'sections':{}}
                 #Look for section code
-                self.current_section = row[1]
+                self.current_section = row[1][0]+row[1][3:]
                 if self.current_section not in self.courses[self.current_code][self.session+'sections'].keys():
                     if 'Zariffa, Jos' in row[7]:
                         self.courses[self.current_code][self.session+'sections'][self.current_section] = ['','','Zariffa, Jos',[]]                        
