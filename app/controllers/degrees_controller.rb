@@ -76,7 +76,9 @@ class DegreesController < ApplicationController
     #Add requirement to degree
     set_degree
     @degree.update({:degree_requirements => params[:req]})
-
+    respond_to do |format|
+      format.json {head :ok}
+    end
   end
 
   helper_method :addReq
