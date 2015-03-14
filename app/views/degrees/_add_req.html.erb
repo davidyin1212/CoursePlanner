@@ -92,7 +92,12 @@ function saveRequirements(name) {
       }
    }
    var reqString = tempReqs.join(";");
-   $.ajax({url: "/degrees/"+<%= @degree.id.to_s %>+ "/addReq", data: {"req": reqString}});
+   $.ajax({url: "/degrees/"+<%= @degree.id.to_s %>+ "/addReq",
+    data: {"req": reqString},
+    dataType: 'html',
+    success: function(response,status) { alert("Degree Successfully Saved"); },
+    error: function(x,y,z) { alert("Error Saving Degree: " + y); }}
+    );
 }
 
 </script>
