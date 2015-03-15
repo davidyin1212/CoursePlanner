@@ -31,13 +31,17 @@ class UsersController < ApplicationController
       if not(@lecture.nil? or @lecture.empty?)
 
         for meeting in mycourse.Wintersections[@lecture][3]
-        meet = OpenStruct.new
-        meet.place = meeting[0]
-        meet.day  = meeting[1][0]
-        meet.start_time  = meeting[1][1]
-        meet.end_time = meeting [1][2]
-        meet.payload = mycourse.course_name
-        timetable << meet
+
+          for i in 1..meeting[0].count
+
+            meet = OpenStruct.new
+            meet.place = meeting[0]
+            meet.day  = meeting[i][0]
+            meet.start_time  = meeting[i][1]
+            meet.end_time = meeting [i][2]
+            meet.payload = mycourse.course_name
+            timetable << meet
+          end
         end
       end
     end
@@ -137,11 +141,11 @@ class UsersController < ApplicationController
 
   def addCourse
     @course = Course.find(params[:id])
-
     # Actually adding link between degree and user
     @user = User.find(params[:user_id])
     if not @course.users.exists?(@user)
       @course.users << @user
+
     end
     #render json: @user.courses
 
@@ -158,7 +162,23 @@ class UsersController < ApplicationController
     redirect_to @user
   end
 
+  def addSection
+    @course = Course.find(params[:id])
 
+    @section = @course.users.User.find(params[:user_id]).course_users.first.lecture_id
+
+    #@new =
+    # Actually adding section to user course join
+
+    if not @sections.exists?(@new)
+      #@sections = @new
+
+    end
+    #render json: @user.courses
+
+    redirect_to @user
+
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -83,11 +83,11 @@
             <%= course.course_description %>
           </div>
         </div>
-        <div id="accordion<%= @user.id %>" class="panel-collapse collapse-lectures">
+        <div id="accordion<%=@user.id %>" class="panel-collapse collapse-lectures">
           <div class="panel-body">
             <ul>
-              <%course.Wintersections.each do |lecture, time| %>
-                <li><%= lecture.check_box :lecture %></li>
+              <%course.Wintersections.each do |section| %>
+                <li><%= radio_button("section","section_id",1) %><%= label("section_id",text= section[0]) %></li>
               <% end %>
             </ul>
           </div>
