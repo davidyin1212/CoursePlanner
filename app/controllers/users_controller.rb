@@ -26,9 +26,10 @@ class UsersController < ApplicationController
     @mycourses.each  do |mycourse|
 
 
-      @lecture = mycourse.course_users.first.lecture_id
+      #@lecture = mycourse.course_users.first.lecture_id
+      @lecture = "L0101"
 
-      if not(@lecture.nil? or @lecture.empty?)
+      if not(mycourse.Wintersections[@lecture].nil? or mycourse.Wintersections[@lecture].empty?)
 
         for meeting in mycourse.Wintersections[@lecture][3]
         meet = OpenStruct.new
