@@ -11,6 +11,7 @@ class DegreesController < ApplicationController
   # GET /degrees/1
   # GET /degrees/1.json
   def show
+    redirect_to edit_page_degree_path
   end
 
   # GET /degrees/new

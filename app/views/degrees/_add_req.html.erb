@@ -2,8 +2,8 @@
 </ul>
 
 <input type="text" id="txtName" />
-<input type="button" value="Add Requirement" id="btnSave" />
-<input type="button" value="Save Requrements" id="btnSaveDegree" />
+<button type="button" value="Add Requirement" id="btnSave" class="btn btn-sm btn-primary">Add Requirement</button>
+<button type="button" value="Save Requrements" id="btnSaveDegree" class="btn btn-sm btn-success">Save Requrements</button>
 
 <script type="text/javascript">
 $.reqVars = new Object();
@@ -21,7 +21,7 @@ if (!($.reqVars.reqs.length == 1 && $.reqVars.reqs[0] == "")) {
          var li_object = $('<li id="cb'+(i+1)+'" class="list-group-item" data-checked="false">');
       }
       $('<label />', { 'for': 'cb'+ (i+1), data_id: (i+1).toString(), text: $.reqVars.reqs[i], id: 'lb' + (i+1) }).appendTo(li_object);
-      $('<input />', { type: 'button', data_id: (i+1).toString(), value: 'Delete', db_id: 'db'+(i+1), id: 'btnDelete' + (i+1), class: 'btnDelete' }).appendTo(li_object);
+      $('<input />', { type: 'button', data_id: (i+1).toString(), value: 'Delete', db_id: 'db'+(i+1), id: 'btnDelete' + (i+1), class: 'btn btn-xs btn-danger pull-right' }).appendTo(li_object);
       li_object.appendTo(container);
    }
 } else {
@@ -149,7 +149,7 @@ function addCheckbox(name) {
   
    var li_object = $('<li id="cb' + id + '" class="list-group-item" data-checked="false" >');
    $('<label />', { 'for': 'cb'+id, data_id: id.toString(), text: name, id: 'lb' + id }).appendTo(li_object);
-   $('<input />', { type: 'button', data_id: id.toString(), value: 'Delete', db_id: 'db'+id, id: 'btnDelete' + id, class: 'btnDelete' }).appendTo(li_object);
+   $('<input />', { type: 'button', data_id: id.toString(), value: 'Delete', db_id: 'db'+id, id: 'btnDelete' + id, class: 'btn btn-xs btn-danger pull-right' }).appendTo(li_object);
    li_object.appendTo(container);
    update_checkbox($('#cb'+id));
    $(document).ready(function() {
