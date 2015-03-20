@@ -2,12 +2,13 @@
 
 <h1>Listing Degrees</h1>
 
-<table>
+<div class="row">
+<table class="col-md-3">
   <colgroup>
-    <col width="10%">
-    <col width="50%">
-    <col width="20%">
-    <col width="20%">
+    <col width="4%">
+    <col width="70%">
+    <col width="13%">
+    <col width="13%">
   </colgroup>
 
   <thead>
@@ -26,13 +27,14 @@
       <tr>
         <td style="height: 30px;"><%= counter %></td>
         <td style="height: 30px;"><%= degree.degree_name %></td>
-        <td style="height: 30px;"><%= button_to 'Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success" %></td>
-        <td style="height: 30px;"><%= button_to 'Destroy', degree, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs btn-danger" %></td>
+        <td style="height: 30px;"><%= link_to 'Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success", style:"color:#FFFFFF" %></td>
+        <td style="height: 30px;"><%= link_to 'Destroy', degree, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-xs btn-danger", style:"color:#FFFFFF" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
-
-<%= link_to 'New Degree', new_degree_path %>
+<div>
+<%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-default" %>
+</div>
