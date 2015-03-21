@@ -6,20 +6,20 @@
 		-o-background-size: cover;
 		background-size: cover;
 		background-repeat: no-repeat;
-		min-height: 600px;
+		min-height: 550px;
 		overflow: hidden
 	}
 	.navbar-application {
 		display: none !important;
 	}
 	.head-container {
-		padding: 200px 0px;
+		padding: 100px 0px;
 	}
 	.nav-hidden {
 		background-color: rgba(0,0,0,0.5);
 	}
 	h1 {
-		font-size: 36px;
+		font-size: 40px;
 		font-weight: normal;
 	}
 	h2 {
@@ -30,17 +30,17 @@
 		color: white;
 	}
 	.features-section {
-		margin: 80px
+		margin: 80px;
 	}
-	.header {
-
+	.landing-button {
+		margin: 40px;
 	}
 	p {
-		color: #525558
+		color: #525558;
 	}
 	h3 {
 		font-size: 20px;
-		color: #525558
+		color: #525558;
 	}
 </style>
 <div class="mast-head">
@@ -62,7 +62,7 @@
 	<div class="col-md-6 col-md-offset-3 head-container" align="center">
 		<h1 class="margin-base-vertical" >Course planning made easy</h1>
 		<h2 class="margin-base-vertical">Streamline your course selection process</h2>
-		<%= link_to "Get Started", new_user_registration_path, class: "button on-image large" %>
+		<%= link_to "Get Started", new_user_registration_path, class: "button on-image large landing-button" %>
 	</div>
 </div>
 <div class="features-section">
