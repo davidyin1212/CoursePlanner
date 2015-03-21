@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CoursePlanner</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<div id="user_nav">
-  <% if user_signed_in? %>
-    Signed in as <%= current_user.email %>. Not you?
-    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-  <% else %>
-    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "Sign in", new_user_session_path %>
-  <% end %>
-</div>
-
-<% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, :id => "flash_#{name}" %>
-<% end %>
+<nav class="navbar navbar-default navbar-application" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to "Course Planner", root_path, class:"navbar-brand" %> 
+    </div>
+    <div class="navbar-inner">
+      <ul class="nav navbar-nav pull-right" role="tablist">
+        <% if user_signed_in? %>
+          <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+        <% else %>
+          <li><%= link_to "Sign up", new_user_registration_path %></li> 
+          <li><%= link_to "Sign in", new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <%= yield %>
 
