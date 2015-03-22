@@ -3,7 +3,7 @@ class CreateCourseUsers < ActiveRecord::Migration
     create_table :course_users, id:false do |t|
         t.integer :course_id
         t.integer :user_id
-        t.string  :lecture_id
+        t.string :section_ids
         t.timestamps null: false
       end
 

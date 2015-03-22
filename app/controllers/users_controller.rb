@@ -26,13 +26,15 @@ class UsersController < ApplicationController
     @mycourses.each  do |mycourse|
 
 
-      @lecture = mycourse.course_users.first.lecture_id
+      @lecture = mycourse.course_users.first.section_ids
 
-      if not(@lecture.nil? or @lecture.empty?)
+      if not(mycourse.Wintersections[@lecture].nil? or mycourse.Wintersections[@lecture].empty?)
 
         for meeting in mycourse.Wintersections[@lecture][3]
 
-          for i in 1..meeting[0].count
+
+
+          (1..meeting.count).each_with_index do |val, i|
 
             meet = OpenStruct.new
             meet.place = meeting[0]
@@ -47,7 +49,7 @@ class UsersController < ApplicationController
     end
 
 
-    timetable.sort! { |a,b| a.start_time <=> b.start_time }
+    #timetable.sort! { |a,b| a.start_time <=> b.start_time }
 
     ##display timetable
     @timeTableEntries = timetable
@@ -163,20 +165,18 @@ class UsersController < ApplicationController
   end
 
   def addSection
-    @course = Course.find(params[:id])
 
-    @section = @course.users.User.find(params[:user_id]).course_users.first.lecture_id
+   @user = User.find(params[:user_id])
 
-    #@new =
-    # Actually adding section to user course join
+   @course_user = @user.courses.find(params[:course_id]).course_users.first
 
-    if not @sections.exists?(@new)
-      #@sections = @new
 
-    end
-    #render json: @user.courses
 
-    redirect_to @user
+   @course_user.update(:section_ids => params[:section_ids])
+
+
+
+   redirect_to @user
 
   end
 
