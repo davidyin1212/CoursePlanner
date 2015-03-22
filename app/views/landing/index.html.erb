@@ -1,1 +1,81 @@
-<h1>Course Planner</h1>
+<style>
+	.mast-head {
+		background: url(../Wesleyan_University_-_Tishler_Lecture_Hall_02.jpg) no-repeat center center fixed; 
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		background-repeat: no-repeat;
+		min-height: 580px;
+		overflow: hidden
+	}
+	.navbar-application {
+		display: none !important;
+	}
+	.head-container {
+		padding: 150px 0px;
+	}
+	.nav-hidden {
+		background-color: rgba(0,0,0,0.5);
+	}
+	h1 {
+		font-size: 40px;
+		font-weight: normal;
+	}
+	h2 {
+		font-size: 24px;
+		font-weight: normal;
+	}
+	.margin-base-vertical {
+		color: white;
+	}
+	.features-section {
+		margin: 80px;
+	}
+	.landing-button {
+		margin: 40px;
+	}
+	p {
+		color: #525558;
+	}
+	h3 {
+		font-size: 20px;
+		color: #525558;
+	}
+</style>
+<div class="mast-head">
+	<nav class="navbar nav-hidden navbar-fixed-top" role="navigation">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <%= link_to "Course Planner", root_path, class:"navbar-brand" %> 
+	    </div>
+		<ul class="nav navbar-nav pull-right" role="tablist">
+		<% if user_signed_in? %>
+		  <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+		<% else %>
+		  <li><%= link_to "Sign up", new_user_registration_path %></li> 
+		  <li><%= link_to "Sign in", new_user_session_path %></li>
+		<% end %>
+		</ul>
+	  </div>
+	</nav>
+	<div class="col-md-6 col-md-offset-3 head-container" align="center">
+		<h1 class="margin-base-vertical" >Course planning made easy</h1>
+		<h2 class="margin-base-vertical">Streamline your course selection process</h2>
+		<%= link_to "Get Started", new_user_registration_path, class: "button on-image large landing-button" %>
+	</div>
+</div>
+<div class="features-section">
+	<div class="container">
+		<h3>Heading</h3>
+		<p>Lorem ipsum dolor sit amet, an graeco platonem vituperata qui, vel sumo abhorreant in, ea his quis intellegebat. Ipsum adolescens philosophia vim eu, sit tale sapientem ut. Tota suscipit convenire quo id, an libris iisque mei. Ne est alia harum periculis. Ei petentium complectitur vel, sit vidit ancillae mediocritatem et, pri cu ludus impedit conceptam.
+
+		Alienum insolens eam cu. Ei imperdiet maiestatis has. Nec at dolore mucius efficiantur, ei odio convenire vis. Utinam alienum inimicus vel ad, ius ne populo ullamcorper. Ea sit malorum omittam, ei illud primis essent duo. Eos ut semper blandit.
+
+		Labore labores suscipiantur ea pro, putant everti necessitatibus mel ex. Vidit labitur tibique no sed. Inani propriae expetendis te sea. Iusto salutandi an eum.
+
+		Ut enim mentitum petentium mea, mei populo quodsi molestiae id, pri no falli tacimates. No vitae veritus est. Eum dicit deserunt consulatu ne, ei vim persius nonumes. Eu eam choro utamur integre, te vis solum velit nullam. Est eu meis postea salutatus, graece ponderum ne duo, in mel omnium prompta epicuri. In sit justo facilis fastidii, facilis commune hendrerit at eos.
+
+		Definiebas reprimique mea ne, qui maiorum convenire ne, labores conceptam efficiantur id usu. Nam dolores perfecto an, eam ea euismod democritum constituto, possit albucius appareat eu est. Fugit apeirian cu est, ei pro justo mollis. Libris delenit pri id, ut quem facer tantas vim. Duis pertinacia concludaturque nam ex, pro quot possit qualisque eu. Vim et nihil commune constituam. Tempor oblique deterruisset ut per, eu vel bonorum mnesarchum definitionem.</p>
+	</div>
+</div>
