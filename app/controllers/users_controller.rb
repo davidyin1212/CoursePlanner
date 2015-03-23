@@ -48,7 +48,6 @@ class UsersController < ApplicationController
 
            end
           end
-sUI
       end
     end
 
