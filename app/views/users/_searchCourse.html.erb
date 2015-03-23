@@ -90,8 +90,8 @@
             <%= form_tag addSection_user_path(user_id: @user,course_id: course), :method => :put do %>
 
               <%course.Wintersections.each_with_index do |section,i| %>
-                <li><%= radio_button_tag("section_ids", section[0]) %>
-                  <%= label_tag("section_ids", section[0]) %></li>
+                <li><%= check_box_tag("section_ids[]", section[0]) %>
+                  <%= label_tag("section_ids[]", section[0]) %></li>
               <% end %>
 
                 <%= submit_tag("Update")%>

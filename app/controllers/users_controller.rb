@@ -26,32 +26,36 @@ class UsersController < ApplicationController
     @mycourses.each  do |mycourse|
 
 
-      @lecture = mycourse.course_users.first.section_ids
+      mycourse.course_users.first.section_ids.each do |lecture|
 
-      if not(mycourse.Wintersections[@lecture].nil? or mycourse.Wintersections[@lecture].empty?)
+          if not(mycourse.Wintersections[lecture].nil? or mycourse.Wintersections[lecture].empty?)
 
-        for meeting in mycourse.Wintersections[@lecture][3]
+            for meeting in mycourse.Wintersections[lecture][3]
 
 
 
-          (1..meeting.count).each_with_index do |val, i|
+              (1..meeting.count).each_with_index do |val, i|
 
-            meet = OpenStruct.new
-            meet.place = meeting[0]
-            meet.day  = meeting[i][0]
-            meet.start_time  = meeting[i][1]
-            meet.end_time = meeting [i][2]
-            meet.payload = mycourse.course_name
-            timetable << meet
+                meet = OpenStruct.new
+                meet.place = meeting[0]
+                meet.day  = meeting[i][0]
+                meet.start_time  = meeting[i][1]
+                meet.end_time = meeting [i][2]
+                meet.payload = mycourse.course_name
+                timetable << meet
+              end
+
+           end
           end
-        end
       end
     end
 
 
+
+
     #timetable.sort! { |a,b| a.start_time <=> b.start_time }
 
-    ##display timetable
+    ##display timetableadding to an instance array rails
     @timeTableEntries = timetable
 
 
@@ -168,11 +172,11 @@ class UsersController < ApplicationController
 
    @user = User.find(params[:user_id])
 
-   @course_user = @user.courses.find(params[:course_id]).course_users.first
+   course_user = @user.course_users.find(params[:course_id])
 
 
 
-   @course_user.update(:section_ids => params[:section_ids])
+   course_user.update(:section_ids => params[:section_ids])
 
 
 
