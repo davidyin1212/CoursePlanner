@@ -26,27 +26,38 @@ class UsersController < ApplicationController
     @mycourses.each  do |mycourse|
 
 
-      #@lecture = mycourse.course_users.first.lecture_id
-      @lecture = "L0101"
 
-      if not(mycourse.Wintersections[@lecture].nil? or mycourse.Wintersections[@lecture].empty?)
+      mycourse.course_users.first.section_ids.each do |lecture|
 
-        for meeting in mycourse.Wintersections[@lecture][3]
-        meet = OpenStruct.new
-        meet.place = meeting[0]
-        meet.day  = meeting[1][0]
-        meet.start_time  = meeting[1][1]
-        meet.end_time = meeting [1][2]
-        meet.payload = mycourse.course_name
-        timetable << meet
-        end
+          if not(mycourse.Wintersections[lecture].nil? or mycourse.Wintersections[lecture].empty?)
+
+            for meeting in mycourse.Wintersections[lecture][3]
+
+
+
+              (1..meeting.count).each_with_index do |val, i|
+
+                meet = OpenStruct.new
+                meet.place = meeting[0]
+                meet.day  = meeting[i][0]
+                meet.start_time  = meeting[i][1]
+                meet.end_time = meeting [i][2]
+                meet.payload = mycourse.course_name() + "\n" + lecture
+                timetable << meet
+              end
+
+           end
+          end
+sUI
       end
     end
 
 
-    timetable.sort! { |a,b| a.start_time <=> b.start_time }
 
-    ##display timetable
+
+    #timetable.sort! { |a,b| a.start_time <=> b.start_time }
+
+    ##display timetableadding to an instance array rails
     @timeTableEntries = timetable
 
 
@@ -138,11 +149,11 @@ class UsersController < ApplicationController
 
   def addCourse
     @course = Course.find(params[:id])
-
     # Actually adding link between degree and user
     @user = User.find(params[:user_id])
     if not @course.users.exists?(@user)
       @course.users << @user
+
     end
     #render json: @user.courses
 
@@ -159,7 +170,21 @@ class UsersController < ApplicationController
     redirect_to @user
   end
 
+  def addSection
 
+   @user = User.find(params[:user_id])
+
+   course_user = @user.course_users.find(params[:course_id])
+
+
+
+   course_user.update(:section_ids => params[:section_ids])
+
+
+
+   redirect_to @user
+
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20150312041957) do
   create_table "course_users", id: false, force: :cascade do |t|
     t.integer  "course_id"
     t.integer  "user_id"
-    t.string   "lecture_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "section_ids"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "course_users", ["course_id"], name: "index_course_users_on_course_id", using: :btree
