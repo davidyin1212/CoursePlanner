@@ -41,7 +41,7 @@ class UsersController < ApplicationController
                 meet.day  = meeting[i][0]
                 meet.start_time  = meeting[i][1]
                 meet.end_time = meeting [i][2]
-                meet.payload = mycourse.course_name
+                meet.payload = mycourse.course_name() + "\n" + lecture
                 timetable << meet
               end
 
