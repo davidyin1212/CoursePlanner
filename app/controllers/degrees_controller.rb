@@ -30,7 +30,8 @@ class DegreesController < ApplicationController
   def create
     @degree = Degree.new(degree_params)
     @degree.update({:degree_requirements => ""})
-
+    
+    current_user.degrees << @degree
     respond_to do |format|
       if @degree.save
         format.html { redirect_to @degree, notice: 'Degree was successfully created.' }
@@ -40,6 +41,7 @@ class DegreesController < ApplicationController
         format.json { render json: @degree.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /degrees/1
