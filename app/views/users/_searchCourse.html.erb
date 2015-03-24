@@ -49,10 +49,10 @@
   </script>
 </head>
 
-<h1>Search Course</h1>
+<h3>Search Course</h3>
 
 
-<select class="js-example-data-array" style="width:23%">
+<select class="js-example-data-array">
   <option></option>
 </select>
 
@@ -60,7 +60,7 @@
 
 <div class="panel-group" id="accordion">
   <% @user.courses.each do |course| %>
-      <div class="panel panel-primary" style="width:23%">
+      <div class="panel panel-primary">
         <div class="panel-heading"> 
           <div class="panel-title">
             <p id="course_code"><%= course.course_code %>:<%= course.course_name%></p>

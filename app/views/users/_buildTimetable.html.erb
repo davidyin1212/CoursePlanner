@@ -1,3 +1,5 @@
+<h3>Timetable</h3>
+
 <%
 
    $rowspan = [1, 1, 1, 1, 1]
@@ -119,7 +121,7 @@
                         <% end %>
 
                         <%-#Actual printing -%>
-                        <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> class=<%= $block_class %>> <%= raw($overall_payload) %> </td>
+                        <td align="center" rowspan=<%= $rowspan[day_index] %> class=<%= $block_class %>> <%= raw($overall_payload) %> </td>
 
                         <% break %>
 
