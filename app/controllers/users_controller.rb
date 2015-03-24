@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
 
-    @courses = Course.all
+    @courses = Course.select("id, course_code, course_name")
 
     require 'ostruct'
 
