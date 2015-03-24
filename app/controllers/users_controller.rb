@@ -127,7 +127,7 @@ class UsersController < ApplicationController
     if not @degree.users.exists?(@user)
       @degree.users << @user
     end
-    redirect_to @user
+    redirect_to @degree
 
   end
 
