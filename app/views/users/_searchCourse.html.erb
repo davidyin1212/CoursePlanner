@@ -5,17 +5,14 @@
       var coursesArray = <%= @courses.to_json.html_safe %>;
       var data = new Array();
       var index = 0;
-      <% @courses.each do |course| %>
-        var el = {id: index, text: '<%= course.course_code %>' + ': ' + '<%= course.course_name %>'};
-        data.push(el);
-        index++;
-      <% end %>
-      $.each(data,function(index,value){
-        $('.js-example-data-array').append('<option value="' + (data[index].id+1) + '">'+data[index].text+'</option>');
+      
+      $.each(coursesArray,function(index,value){
+        $('.js-example-data-array').append('<option value="' + (value.id+1) + '">' + value.course_code + ': ' + value.course_name +'</option>');
       });
       
       $(".js-example-data-array").select2({
         placeholder: "Search course",
+        minimumInputLength: 3,
       });
 
       $(".panel-title").click(function() {

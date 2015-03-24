@@ -6,8 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-course_json_file = File.read('db/master_timetable_partial.json')
-#course_json_file = File.read('all_courses.json')
+#course_json_file = File.read('db/master_timetable_partial.json')
+course_json_file = File.read('db/all_courses.json')
 #Course.create({course_name: 'abc'})
 data_hash = JSON.parse(course_json_file)
 data_hash.default = ''
