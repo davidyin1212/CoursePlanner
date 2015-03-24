@@ -40,8 +40,8 @@ class UsersController < ApplicationController
                 meet = OpenStruct.new
                 meet.place = meeting[0]
                 meet.day  = meeting[i][0]
-                meet.start_time  = meeting[i][1]
-                meet.end_time = meeting [i][2]
+                meet.start_time  = meeting[i][1].to_i
+                meet.end_time = meeting [i][2].to_i
                 meet.payload = mycourse.course_name() + "\n" + lecture
                 timetable << meet
               end
