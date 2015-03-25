@@ -92,7 +92,7 @@ class CalendarPageParser(hp.HTMLParser):
             else:
                 self.active_course = Course(0)
                 self.has_active_course = 0
-        elif self.active_course.step == 2:
+        elif self.active_course.step == 2 and tag != 'p' and tag != 'a':
             #If inside descrption, reconstruct tag and add to description
             self.active_course.add_to_desc(self.get_starttag_text())
         elif tag == 'div': 
@@ -101,7 +101,7 @@ class CalendarPageParser(hp.HTMLParser):
                 self.courses.append(self.active_course)
             self.active_course = Course()
             self.has_active_course = 0
-        elif self.active_course.step == 3 and tag != 'br':
+        elif self.active_course.step == 3 and tag != 'br' and tag != 'p' and tag != 'a':
             #Handle post-description data
             self.temp_string += self.get_starttag_text()
         elif self.active_course.step == 3:
@@ -114,9 +114,9 @@ class CalendarPageParser(hp.HTMLParser):
             self.active_course.step = 2
         elif self.active_course.step == 2 and tag == 'p':
             self.active_course.step = 3
-        elif self.active_course.step == 2 and tag != 'p':
+        elif self.active_course.step == 2 and tag != 'p' and tag != 'a':
             self.active_course.add_to_desc('</' + tag + '>')
-        elif self.active_course.step == 3:
+        elif self.active_course.step == 3 and tag != 'p' and tag != 'a':
             self.temp_string += ('</' + tag + '>')
             
     def handle_data(self, data):
@@ -507,10 +507,11 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
             self.active_course.step = 4
         elif self.active_course.step == 5 and ('class','rightAlign') in attrs:
             self.active_course.step = 6
-        elif self.active_course.step == 8:
+        elif self.active_course.step == 8 and tag != 'p' and tag != 'a':
             self.active_course.add_to_desc(self.get_starttag_text())
         elif self.active_course.step == 9:
-            self.active_course.add_to_desc(self.get_starttag_text())
+            if tag != 'p' and tag != 'a':
+                self.active_course.add_to_desc(self.get_starttag_text())
             if tag == 'br':
                 self.active_course.step = 10
             else:
@@ -522,7 +523,7 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
                 self.courses.append(self.active_course)
             self.active_course = Course()
             self.has_active_course = 0
-        elif self.active_course.step == 10 and tag != 'br':
+        elif self.active_course.step == 10 and tag != 'br' and tag != 'p' and tag != 'a':
             #Handle post-description data
             self.temp_string += self.get_starttag_text()
         elif self.active_course.step == 10:
@@ -534,11 +535,13 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
         if self.active_course.step == 7 and tag == 'table':
             self.active_course.step = 8
         elif self.active_course.step == 8:
-            self.active_course.add_to_desc('</' + tag + '>')
+            if tag != 'p' and tag != 'a':
+                self.active_course.add_to_desc('</' + tag + '>')
             if tag == 'p':
                 self.active_course.step = 9
         elif self.active_course.step == 10:
-            self.temp_string += ('</' + tag + '>')
+            if tag != 'p' and tag != 'a':
+                self.temp_string += ('</' + tag + '>')
             
     def handle_data(self, data):
 #        print "Encountered some data  :", data
@@ -618,7 +621,10 @@ class EngineeringTimetableParser(hp.HTMLParser):
         self.url = 'http://www.apsc.utoronto.ca/timetable/'+session+'.html'
         h = hl.Http(".cache")
         print 'start'
-        (resp, content) = h.request(self.url )
+        if session == 'fall':
+            content = open('UndergraduateTimetable.html').read()
+        else:
+            (resp, content) = h.request(self.url )
         print 'start'
         self.session= session
         self.in_table = 0
@@ -742,7 +748,8 @@ class EngineeringTimetableDirectoryParser():
         self.courses.update(tt_parser.process_rows())
         ttf_parser = EngineeringTimetableParser()
         ttf_parser.fetch_url('fall')
-        self.courses.update(ttf_parser.process_rows())
+        for k,v in ttf_parser.process_rows().iteritems():
+            self.courses.setdefault(k,{}).update(v)
         #Get course info
         desc_parser = EngineeringCalendarPageParser()
         desc_parser.fetch_url()
@@ -774,6 +781,41 @@ class EngineeringTimetableDirectoryParser():
         out_file = open(filename, 'wb')
         out_file.write(self.output_json_string_partial())
         out_file.close
+        
+    def add_enrolment_info(self):
+        counter = 0
+        for course_code in self.courses.keys():
+            counter += 1
+            print counter
+            #Get enrolment info
+            base_url_1 = 'http://coursefinder.utoronto.ca/course-search/search/courseInquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId='
+            base_url_2f = 'F20149#'
+            base_url_2w = 'S20151#'
+            if 'fallsections' in self.courses[course_code]:
+                course_finder_url = base_url_1 + course_code + base_url_2f
+                course_finder = CourseFinderParser()
+                course_finder.fetch_url(course_finder_url)
+                enrolment_data = course_finder.get_data()
+                for section in self.courses[course_code].get('fallsections',{}).keys():
+                    if section in enrolment_data.keys():
+                        self.courses[course_code]['fallsections'][section].append(enrolment_data[section]['CurrentEnrolment'])
+                        self.courses[course_code]['fallsections'][section].append(enrolment_data[section]['MaxEnrolment'])
+                    else:
+                        self.courses[course_code]['fallsections'][section].append('')
+                        self.courses[course_code]['fallsections'][section].append('')
+            if 'wintersections' in self.courses[course_code]:
+                course_finder_url = base_url_1 + course_code + base_url_2w
+                course_finder = CourseFinderParser()
+                course_finder.fetch_url(course_finder_url)
+                enrolment_data = course_finder.get_data()
+                for section in self.courses[course_code].get('wintersections',{}).keys():
+                    if section in enrolment_data.keys():
+                        self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['CurrentEnrolment'])
+                        self.courses[course_code]['wintersections'][section].append(enrolment_data[section]['MaxEnrolment'])
+                    else:
+                        self.courses[course_code]['wintersections'][section].append('')
+                        self.courses[course_code]['wintersections'][section].append('')
+
 
 class CourseFinderParser(hp.HTMLParser):
     def fetch_url(self,url):
@@ -865,10 +907,11 @@ if __name__ == '__main__':
     y = EngineeringTimetableDirectoryParser()
     y.fetch_data()
     print 'part 2 complete'
-    x.courses.update(y.courses)
-    x.add_enrolment_info()
+    for k,v in x.courses.iteritems():
+        y.courses.setdefault(k,{}).update(v)
+    y.add_enrolment_info()
     out_file = open('all_courses.json', 'wb')
-    out_file.write(json.dumps(x.courses, ensure_ascii=False))
+    out_file.write(json.dumps(y.courses, ensure_ascii=False))
     out_file.close()
 #
 #    
