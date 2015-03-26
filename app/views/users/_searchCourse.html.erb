@@ -52,7 +52,7 @@
 <h3>Search Course</h3>
 
 
-<select class="js-example-data-array">
+<select class="js-example-data-array" style="width:100%;">
   <option></option>
 </select>
 
@@ -78,6 +78,7 @@
         <div id="accordion<%= course.id %>desc" class="panel-collapse collapse">
           <div class="panel-body">
             <%= course.course_description %>
+            <strong><%= link_to 'More details', course %></strong>
           </div>
         </div>
         <div id="accordion<%= course.id %>lec" class="panel-collapse collapse">
