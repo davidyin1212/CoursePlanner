@@ -1,22 +1,26 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>First name:</strong>
+  <strong>
   <%= @user.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
   <%= @user.last_name %>
+  </strong>
 </p>
 
 <h1>Enrolled in the following Degrees</h1>
 
-<table>
+<div class="container">
+<div class="row">
+<table class="col-md-4">
+  <colgroup>
+    <col width="70%">
+    <col width="10%">
+    <col width="20%">
+  </colgroup>
   <thead>
     <tr>
       <th>Degree name</th>
-      <th colspan="1"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -31,9 +35,10 @@
   </tbody>
 </table>
 
-<br>
+</div>
+</div>
 
-<%= link_to 'Create Degree', new_degree_path %>
+<%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-info" %>
 
 <br>
 <div>
@@ -50,8 +55,6 @@
 <% if current_user == User.find(params[:id]) %>
 
   <%= link_to 'Edit', edit_user_path(@user) %> |
-
-  <%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> 
 
 <% else %>
   <%= link_to 'Back', user_path(current_user) %>
