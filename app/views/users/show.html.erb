@@ -1,39 +1,44 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>First name:</strong>
+  <strong>
   <%= @user.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
   <%= @user.last_name %>
+  </strong>
 </p>
 
 <h1>Enrolled in the following Degrees</h1>
 
-<table>
+<div class="container">
+<div class="row">
+<table class="col-md-4">
+  <colgroup>
+    <col width="70%">
+    <col width="10%">
+    <col width="20%">
+  </colgroup>
   <thead>
     <tr>
       <th>Degree name</th>
-      <th colspan="1"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @user.degrees.each do |degree| %>
       <tr>
-        <td><%= degree.degree_name %></td>
-        <td><%= link_to 'Edit Degree', edit_page_degree_path(degree) %></td>
-        <td><%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' } %></td>
+        <<td style="height: 30px;"><%= degree.degree_name %></td>
+        <td style="height: 30px;"><%= link_to 'Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success", style:"color:#FFFFFF" %></td>
+        <td style="height: 30px;"><%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' },class:"btn btn-xs btn-danger", style:"color:#FFFFFF"  %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
+</div>
+</div>
 
-<%= link_to 'Create Degree', new_degree_path %>
+<%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-info" %>
 
 <br>
 <div>
@@ -50,8 +55,6 @@
 <% if current_user == User.find(params[:id]) %>
 
   <%= link_to 'Edit', edit_user_path(@user) %> |
-
-  <%= link_to 'Add Degrees', addDegreePage_user_path(@user) %> 
 
 <% else %>
   <%= link_to 'Back', user_path(current_user) %>
