@@ -1,38 +1,46 @@
-<h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
+<style>
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+</style>
+
+<%= form_for(resource, as: resource_name,:html=>{:class=>'form-signin'}, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
+    <h2 class = "form-signin-header">Sign up</h2>
 
-  <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
+    <%= f.email_field :email, autofocus: true, class:"form-control" %>
 
-  <div class="field">
+
+
     <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autofocus: true %>
-  </div>
+    <%= f.text_field :first_name, autofocus: true, class:"form-control" %>
 
-  <div class="field">
+
+
     <%= f.label :last_name %><br />
-    <%= f.text_field :last_name, autofocus: true %>
-  </div>
+    <%= f.text_field :last_name, autofocus: true, class:"form-control" %>
+
 
   <div class="field">
     <%= f.label :password %>
     <% if @validatable %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.password_field :password, autocomplete: "off", class:"form-control" %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off",  class:"form-control" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
   </div>
 <% end %>
 
