@@ -1,12 +1,6 @@
 
 <title>Sign Up </title>
-<style>
-    body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #eee;
-    }
-</style>
+
 
 <%= form_for(resource, as: resource_name,:html=>{:class=>'form-signin'}, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
