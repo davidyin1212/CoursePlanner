@@ -88,8 +88,8 @@
             <%= form_tag addSection_user_path(user_id: @user,course_id: course), :method => :put do %>
 
               <%course.Wintersections.each_with_index do |section,i| %>
-                <li><%= check_box_tag("section_ids[]", section[0]) %>
-                  <%= label_tag("section_ids[]", section[0]) %></li>
+                <li style="list-style:none;"><%= check_box_tag("section_ids[]", section[0]) %>
+                  <%= label_tag("section_ids[]", section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")") %></li>
               <% end %>
 
                 <%= submit_tag("Update")%>

@@ -13,8 +13,8 @@
 <div class="row">
 <table class="col-md-4">
   <colgroup>
-    <col width="70%">
-    <col width="10%">
+    <col width="60%">
+    <col width="20%">
     <col width="20%">
   </colgroup>
   <thead>
@@ -27,8 +27,8 @@
   <tbody>
     <% @user.degrees.each do |degree| %>
       <tr>
-        <<td style="height: 30px;"><%= degree.degree_name %></td>
-        <td style="height: 30px;"><%= link_to 'Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success", style:"color:#FFFFFF" %></td>
+        <td style="height: 30px;"><%= degree.degree_name %></td>
+        <td style="height: 30px;"><%= link_to 'View/Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success", style:"color:#FFFFFF" %></td>
         <td style="height: 30px;"><%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' },class:"btn btn-xs btn-danger", style:"color:#FFFFFF"  %></td>
       </tr>
     <% end %>
