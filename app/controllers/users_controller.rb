@@ -24,9 +24,6 @@ class UsersController < ApplicationController
     timetable = Array.new
 
     @mycourses.each  do |mycourse|
-
-
-
       mycourse.course_users.first.section_ids.each do |lecture|
 
           if not(mycourse.Wintersections[lecture].nil? or mycourse.Wintersections[lecture].empty?)
@@ -183,6 +180,27 @@ class UsersController < ApplicationController
 
    redirect_to @user
 
+  end
+
+  def autoSchedule
+    load 'scripts/scheduler.rb'
+    @user = User.find(params[:id])
+    @mycourses = @user.courses.all
+    @my_course_list = {}
+    @mycourses.each  do |mycourse|
+      if not(mycourse.Wintersections.nil? or mycourse.Wintersections.empty?)
+        @my_course_list[mycourse.course_code] = mycourse.Wintersections
+      end
+    end
+
+    opt_schedule = Scheduler.new(@my_course_list).schedule()
+    
+    opt_schedule.each do |code, sections|
+      id = Course.find_by(course_code: code).id
+      course_user = @user.course_users.find_by(course_id: id)
+      course_user.update(:section_ids => sections)
+    end
+    redirect_to @user
   end
 
   private

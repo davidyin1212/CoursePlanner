@@ -15,7 +15,7 @@ class Scheduler
 	#Convert to correct input type
 		formatted_course_list = []
 		@course_list.each do |course_code, section_list|
-      parsed_section_list = eval(section_list)
+      parsed_section_list = section_list
 			course_object = [course_code,[Array.new,Array.new,Array.new]]
 			parsed_section_list.each do |section_code, section_data|
 				section_object = [section_code]

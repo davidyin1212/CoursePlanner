@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get 'addDegree'
       get 'addCoursePage'
       get 'addCourse'
+      get 'autoSchedule'
       put 'addSection'
       get 'remDegree'
       get 'remCourse'
