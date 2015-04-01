@@ -1,28 +1,30 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>
-  <%= @user.first_name %>
-  <%= @user.last_name %>
-  </strong>
-</p>
+<title> <%= @user.first_name %>'s Home </title>
 
-<h1>Enrolled in the following Degrees</h1>
+
+<div class="container"><h1>Welcome <%= @user.first_name %> </h1>
+
+
+
 
 <div class="container">
-<div class="row">
-<table class="col-md-4">
-  <colgroup>
-    <col width="60%">
-    <col width="20%">
-    <col width="20%">
-  </colgroup>
+  <h3>Degrees</h3>
+    <div class="row">
+        <table class="col-md-4">
+        <colgroup>
+        <col width="60%">
+        <col width="20%">
+        <col width="20%">
+        </colgroup>
+  <%if not @user.degrees.first.nil?%>
   <thead>
     <tr>
       <th>Degree name</th>
       <th colspan="2"></th>
     </tr>
   </thead>
+      <%end%>
 
   <tbody>
     <% @user.degrees.each do |degree| %>
@@ -35,10 +37,10 @@
   </tbody>
 </table>
 
-</div>
+    </div>
+<%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-info" %>
 </div>
 
-<%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-info" %>
 
 <br>
 <div>
