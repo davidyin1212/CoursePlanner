@@ -193,7 +193,7 @@ class UsersController < ApplicationController
       end
     end
 
-    opt_schedule = Scheduler.new(@my_course_list).schedule(0)
+    opt_schedule = Scheduler.new(@my_course_list).schedule(params[:flag1],params[:flag2])
     
     opt_schedule.each do |code, sections|
       id = Course.find_by(course_code: code).id

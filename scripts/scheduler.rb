@@ -7,7 +7,7 @@ class Scheduler
     @cost = 0
   end
   
-  def schedule(flag)
+  def schedule(flag1, flag2)
   #Input: list of courses
   #  Format: {course_code1: {section1,section2,...},course_code2: [...],...]
   #      Section = sec_code: [ignore,ignore,ignore,[[rm1,[time1],[time2],...],[rm2,[time1],[time2]],...]]
@@ -35,7 +35,7 @@ class Scheduler
         end
       end
 
-      if flag == 1
+      if flag1 == 1
         #Deal with no Fridays
         temp_course_object = course_object
         course_object[1].each_with_index do |lpt_block,index|
@@ -48,7 +48,33 @@ class Scheduler
                   friday = 1
                 end
               end
-              if not friday?
+              if not friday
+                temp_LPT_block.push(section_block)
+              end
+            end
+            if temp_LPT_block.empty?
+              temp_LPT_block = lpt_block
+            end            
+          end
+          temp_course_object[1][index] = temp_LPT_block
+        end
+        course_object = temp_course_object
+      end
+
+      if flag2 == 1
+        #Deal with no mornings
+        temp_course_object = course_object
+        course_object[1].each_with_index do |lpt_block,index|
+          temp_LPT_block = []
+          if not lpt_block.empty?
+            lpt_block.each do |section_block|
+              morning = 0
+              section_block[1..-1].each do |time_block|
+                if time_block[1] < 12
+                  morning = 1
+                end
+              end
+              if not morning
                 temp_LPT_block.push(section_block)
               end
             end
