@@ -35,7 +35,9 @@ class Scheduler
         end
       end
 
-      if flag1 == 1
+      if flag1 == "1"
+puts 'derpderpderp\n\n\n\n\n\n\n\n\n\n\n\n'
+puts course_code
         #Deal with no Fridays
         temp_course_object = course_object
         course_object[1].each_with_index do |lpt_block,index|
@@ -48,7 +50,7 @@ class Scheduler
                   friday = 1
                 end
               end
-              if not friday
+              if friday == 0
                 temp_LPT_block.push(section_block)
               end
             end
@@ -61,7 +63,7 @@ class Scheduler
         course_object = temp_course_object
       end
 
-      if flag2 == 1
+      if flag2 == "1"
         #Deal with no mornings
         temp_course_object = course_object
         course_object[1].each_with_index do |lpt_block,index|
@@ -74,7 +76,7 @@ class Scheduler
                   morning = 1
                 end
               end
-              if not morning
+              if morning == 0
                 temp_LPT_block.push(section_block)
               end
             end
@@ -127,7 +129,6 @@ class Scheduler
     optimal_schedule = Array.new
     optimal_cost = Float::INFINITY
     current_schedule = Array.new(course_list.count)
-
     #max_options stores the number of possible choices for each section_set
     max_options = Array.new(course_list.count)
     course_list.each_with_index do |temp_array, index|

@@ -95,7 +95,7 @@
 
                     <%else%>
                         <li style="list-style:none;"><%= check_box_tag("section_ids[]", section[0]) %>
-                        <%= label_tag("section_ids[]", section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")") %></li>
+                        <%= label_tag("section_ids[]", section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")")+ (section[1][2].to_s!="" ? " - " + section[1][2].to_s : "")  %></li>
                     <% end %>
               <% end %>
 
@@ -109,15 +109,13 @@
       
 </div>
 
+<%= form_tag(autoSchedule_user_path, method: "get") do %>
+  <%= submit_tag("Auto Schedule", class: "btn btn-sm btn-success") %>
+  <br>
+  <%= check_box_tag(:flag1) %>
+  <%= label_tag(:flag1, "Avoid Friday Classes", class: "checkbox-inline") %>
+  <br>
+  <%= check_box_tag(:flag2) %>
+  <%= label_tag(:flag2, "Avoid Morning Classes", class: "checkbox-inline") %>
+<% end %>
 
-<%= link_to 'Auto Schedule', autoSchedule_user_path, class: "btn btn-sm btn-success" %>
-
-<form role="form">
-    <label class="radio-inline">
-      <input type="radio" id="flag1" name="flag1">Avoid Friday Classses
-    </label>
-<br>
-    <label class="radio-inline">
-      <input type="radio" id="flag2" name="flag2">Avoid Morning Classes
-    </label>
-</form>
