@@ -23,7 +23,14 @@ class UsersController < ApplicationController
 
     timetable = Array.new
 
+    colors = ['#FFCCFF','#FF9933','#CCFF33','#99FFFF','#9999FF','#996633','#339966','#0066FF']
+    color_index = 0
+
     @mycourses.each  do |mycourse|
+
+      current_color = colors[color_index % colors.size]
+      color_index = color_index + 1
+
       mycourse.course_users.first.section_ids.each do |lecture|
 
           if not(mycourse.Wintersections[lecture].nil? or mycourse.Wintersections[lecture].empty?)
@@ -40,6 +47,7 @@ class UsersController < ApplicationController
                 meet.start_time  = meeting[i][1].to_i
                 meet.end_time = meeting [i][2].to_i
                 meet.payload = mycourse.course_name() + "\n" + lecture + "\n" + meeting[0]
+                meet.color = current_color
                 timetable << meet
               end
 

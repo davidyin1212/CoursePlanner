@@ -1,5 +1,7 @@
 <head>
-    <style>ul { width: 100%; }</style>
+    <style>
+      ul { width: 100%; }
+    </style>
     <script type="text/javascript">
     
     $(document).ready(function() {
@@ -59,19 +61,27 @@
 <div id="course_added"><br></div>
 
 <div class="panel-group" id="accordion">
+  <%
+    colors = ['#FFCCFF','#FF9933','#CCFF33','#99FFFF','#9999FF','#996633','#339966','#0066FF']
+    color_index = 0
+  %>
   <% @user.courses.each do |course| %>
+      <% 
+        current_color = colors[color_index % colors.size]
+        color_index = color_index + 1
+      %>
       <div class="panel panel-primary">
-        <div class="panel-heading"> 
-          <div class="panel-title">
+        <div class="panel-heading" style="background-color:<%= current_color %>"> 
+          <div class="panel-title" style="color:black">
             <p id="course_code"><%= course.course_code %>:<%= course.course_name%></p>
           </div>
-          <%= link_to 'x', remCourse_user_path(user_id: @user, course_id: course), {data: { confirm: 'Are you sure?' }, :style=>"color:white;float:right"} %>
+          <%= link_to 'x', remCourse_user_path(user_id: @user, course_id: course), {data: { confirm: 'Are you sure?' }, :style=>"float:right", :class=>"hover-white"} %>
           <a data-toggle="collapse" data-parent="#accordion"
-                href="#accordion<%= course.id %>desc" style="color:white;margin-right:15%;">
+                href="#accordion<%= course.id %>desc" style="margin-right:15%;" class="hover-white">
               Description
           </a>
           <a data-toggle="collapse" data-parent="#accordion"
-              href="#accordion<%= course.id %>lec" style="color:white">
+              href="#accordion<%= course.id %>lec" class="hover-white">
             Sections
           </a>
         </div>
@@ -118,4 +128,3 @@
   <%= check_box_tag(:flag2) %>
   <%= label_tag(:flag2, "Avoid Morning Classes", class: "checkbox-inline") %>
 <% end %>
-

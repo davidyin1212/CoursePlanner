@@ -62,7 +62,7 @@
 
             <% else %>
                 <% $found = 0 %>
-                <% $block_class = 'Normal' %>
+                <% $block_class = 'Normal-Cell' %>
 
                 <% list_object.each do |entry| %>
 
@@ -121,7 +121,7 @@
                         <% end %>
 
                         <%-#Actual printing -%>
-                        <td align="center" rowspan=<%= $rowspan[day_index] %> class=<%= $block_class %>> <%= raw($overall_payload) %> </td>
+                        <td align="center" rowspan=<%= $rowspan[day_index] %> class=<%= $block_class %> bgcolor=<%= entry.color %>> <%= raw($overall_payload) %> </td>
 
                         <% break %>
 
