@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     timetable = Array.new
 
-    colors = ['#FFCCFF','#FF9933','#CCFF33','#99FFFF','#9999FF','#996633','#339966','#0066FF']
+    colors = ['#FFBBFF','#FFFFCC','#CCFFFF','#BBBBEE','#EEBBBB','#BBEEBB','#CCCCCC','#6699FF']
     color_index = 0
 
     @mycourses.each  do |mycourse|

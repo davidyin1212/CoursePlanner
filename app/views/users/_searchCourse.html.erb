@@ -62,7 +62,7 @@
 
 <div class="panel-group" id="accordion">
   <%
-    colors = ['#FFCCFF','#FF9933','#CCFF33','#99FFFF','#9999FF','#996633','#339966','#0066FF']
+    colors = ['#FFCCFF','#FFFFCC','#CCFFFF','#CCCCFF','#FFCCCC','#CCFFCC','#CCCCCC','#6699FF']
     color_index = 0
   %>
   <% @user.courses.each do |course| %>
@@ -88,7 +88,8 @@
         <div id="accordion<%= course.id %>desc" class="panel-collapse collapse">
           <div class="panel-body">
             <%= course.course_description %>
-            <strong><%= link_to 'More details', course %></strong>
+            <br>
+            <strong><%= link_to 'More details', course, {:style => 'color:#0000EE;', :class => 'css_class'} %></strong>
           </div>
         </div>
         <div id="accordion<%= course.id %>lec" class="panel-collapse collapse">
