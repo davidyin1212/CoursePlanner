@@ -87,7 +87,7 @@
         </div>
         <div id="accordion<%= course.id %>desc" class="panel-collapse collapse">
           <div class="panel-body">
-            <%= course.course_description %>
+            <%= course.course_description.html_safe %>
             <br>
             <strong><%= link_to 'More details', course, {:style => 'color:#0000EE;', :class => 'css_class'} %></strong>
           </div>

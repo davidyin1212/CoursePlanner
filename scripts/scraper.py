@@ -45,8 +45,7 @@ class CalendarPageParser(hp.HTMLParser):
     def fetch_url(self,url):
         #Get html from website with url = url
         h = hl.Http(".cache")
-        (resp, content) = h.request(url,
-                        headers={'cache-control':'no-cache'} )
+        (resp, content) = h.request(url)
         self.active_course = Course()
         self.has_active_course = 0;
         self.courses = []
@@ -101,7 +100,7 @@ class CalendarPageParser(hp.HTMLParser):
                 self.courses.append(self.active_course)
             self.active_course = Course()
             self.has_active_course = 0
-        elif self.active_course.step == 3 and tag != 'br' and tag != 'p' and tag != 'a':
+        elif self.active_course.step == 3 and tag != 'p' and tag != 'a':
             #Handle post-description data
             self.temp_string += self.get_starttag_text()
         elif self.active_course.step == 3:
@@ -113,11 +112,15 @@ class CalendarPageParser(hp.HTMLParser):
         if self.active_course.step == 1 and tag == 'span':
             self.active_course.step = 2
         elif self.active_course.step == 2 and tag == 'p':
+            self.active_course.add_to_desc('<br>')            
             self.active_course.step = 3
         elif self.active_course.step == 2 and tag != 'p' and tag != 'a':
             self.active_course.add_to_desc('</' + tag + '>')
         elif self.active_course.step == 3 and tag != 'p' and tag != 'a':
             self.temp_string += ('</' + tag + '>')
+        elif self.active_course.step == 3 and tag == 'p':
+            self.temp_string += ('<br>')
+
             
     def handle_data(self, data):
 #        print "Encountered some data  :", data
@@ -210,8 +213,7 @@ class TimetableParser(hp.HTMLParser):
     def fetch_url(self,url,session):
         #Get html from website with url = url
         h = hl.Http(".cache")
-        (resp, content) = h.request(url,
-                        headers={'cache-control':'no-cache'} )
+        (resp, content) = h.request(url)
         self.url = url #for debug
         self.session = session
         self.in_table = 0
@@ -360,8 +362,7 @@ class TimetableDirectoryParser(hp.HTMLParser):
         self.directory_url = 'http://www.artsandscience.utoronto.ca/ofr/timetable/winter/sponsors.htm'
         self.courses = {}
         h = hl.Http(".cache")
-        (resp, content) = h.request(self.directory_url,
-                        headers={'cache-control':'no-cache'} )
+        (resp, content) = h.request(self.directory_url)
         self.feed(content)
         
     def handle_starttag(self,tag,attrs):
@@ -523,7 +524,7 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
                 self.courses.append(self.active_course)
             self.active_course = Course()
             self.has_active_course = 0
-        elif self.active_course.step == 10 and tag != 'br' and tag != 'p' and tag != 'a':
+        elif self.active_course.step == 10 and tag != 'p' and tag != 'a':
             #Handle post-description data
             self.temp_string += self.get_starttag_text()
         elif self.active_course.step == 10:
@@ -538,10 +539,13 @@ class EngineeringCalendarPageParser(hp.HTMLParser):
             if tag != 'p' and tag != 'a':
                 self.active_course.add_to_desc('</' + tag + '>')
             if tag == 'p':
+                self.active_course.add_to_desc('<br>')
                 self.active_course.step = 9
         elif self.active_course.step == 10:
             if tag != 'p' and tag != 'a':
                 self.temp_string += ('</' + tag + '>')
+            if tag == 'p':
+                self.temp_string += ('<br>')
             
     def handle_data(self, data):
 #        print "Encountered some data  :", data
