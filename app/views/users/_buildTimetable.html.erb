@@ -10,13 +10,32 @@
 
    $overall_payload = ""
 
-   $block_class = 'Normal'
+   $block_class = true
 
    list_object = @timeTableEntries
 %>
 
 <%-#list_object must be sorted by start_time. Otherwise wont work. -%>
 
+<% maxL = 0
+   maxH = 0 %>
+
+<% list_object.each do |entry|
+  if -1*entry.start_time < maxL
+    maxL = -1*entry.start_time
+  end
+
+  if entry.end_time > maxH
+    maxH = entry.end_time
+  end
+%>
+
+
+
+<% end
+   maxL = -1*maxL
+   maxH = 2*(maxH - maxL) + 1
+%>
 
 <table class="sched" width="100%" cellpadding="0" cellspacing="0">
   <tr height="20">
@@ -62,7 +81,7 @@
 
             <% else %>
                 <% $found = 0 %>
-                <% $block_class = 'Normal-Cell' %>
+                <% $block_class = true %>
 
                 <% list_object.each do |entry| %>
 
@@ -102,7 +121,7 @@
                                             "<br/>" + entry_minor.payload + "<br/>"
 
                                        $rowspan[day_index] = 2*(entry_minor.end_time - entry.start_time)
-                                       $block_class = 'Conflict'
+                                       $block_class = false
                                     %>
 
                                     <% list_object_minor = list_object_minor.drop(1+list_object_minor.index(entry_minor)) %>
@@ -121,9 +140,16 @@
                         <% end %>
 
                         <%-#Actual printing -%>
-                        <td align="center" rowspan=<%= $rowspan[day_index] %> class=<%= $block_class %> bgcolor=<%= entry.color %>> <%= raw($overall_payload) %> </td>
+                        <% if $block_class %>
+                            <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> bgcolor=<%= entry.color.to_s %>> <%= raw($overall_payload) %> </td>
 
-                        <% break %>
+                            <% break %>
+                        <% else %>
+                            <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> bgcolor="#FF4444"> <%= raw($overall_payload) %> </td>
+
+                            <% break %>
+
+                        <% end %>
 
 
 
