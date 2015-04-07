@@ -2,44 +2,33 @@
 
 <title> <%= @user.first_name %>'s Home </title>
 
-
 <div class="container"><h1>Welcome <%= @user.first_name %> </h1>
 
 
+<% if current_user == User.find(params[:id]) %>
 
+  <%= link_to 'Edit Profile', edit_user_path(@user),  {:style => 'color:#444444; text-decoration:underline;', :class => 'css_class'}  %> 
 
-<div class="container">
+<% else %>
+  <%= link_to 'Back', user_path(current_user),  {:style => 'color:#444444; text-decoration:underline;', :class => 'css_class'}  %>
+<% end %>
+<br>
+
+<div class="Well">
   <h3>Degrees</h3>
-    <div class="row">
-        <table class="col-md-4">
-        <colgroup>
-        <col width="60%">
-        <col width="20%">
-        <col width="20%">
-        </colgroup>
-  <%if not @user.degrees.first.nil?%>
-  <thead>
-    <tr>
-      <th>Degree name</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-      <%end%>
+    
+        <ul class="list-group" style="list-style-type:none;">
 
-  <tbody>
     <% @user.degrees.each do |degree| %>
-      <tr>
-        <td style="height: 30px;"><%= degree.degree_name %></td>
-        <td style="height: 30px;"><%= link_to 'View/Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success", style:"color:#FFFFFF" %></td>
-        <td style="height: 30px;"><%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' },class:"btn btn-xs btn-danger", style:"color:#FFFFFF"  %></td>
-      </tr>
+        <li class="list-group-item" style="width:70%;"><%= degree.degree_name %>
+        <%= link_to 'Abandon Degree', remDegree_user_path(user_id: @user, degree_id: degree), data: { confirm: 'Are you sure?' },class:"btn btn-xs btn-danger pull-right", style:"color:#FFFFFF" %> 
+        <%= link_to 'View/Edit', edit_page_degree_path(degree), class:"btn btn-xs btn-success pull-right", style:"color:#FFFFFF" %></li>
     <% end %>
-  </tbody>
-</table>
 
-    </div>
+<br>
 <%= link_to 'Create New Degree', new_degree_path, class: "btn btn-sm btn-info" %>
 </div>
+
 
 
 <br>
@@ -51,16 +40,13 @@
   <%= render 'users/buildTimetable' %>
   </div>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 
-<% if current_user == User.find(params[:id]) %>
-
-  <%= link_to 'Edit', edit_user_path(@user) %> |
-
-<% else %>
-  <%= link_to 'Back', user_path(current_user) %>
-<% end %>
 
 
 
