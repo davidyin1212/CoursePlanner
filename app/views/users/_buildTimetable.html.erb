@@ -141,11 +141,11 @@
 
                         <%-#Actual printing -%>
                         <% if $block_class %>
-                            <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> bgcolor=<%= entry.color.to_s %>> <%= raw($overall_payload) %> </td>
+                            <td align="center" rowspan=<%= $rowspan[day_index] %> bgcolor=<%= entry.color.to_s %>> <%= raw($overall_payload) %> </td>
 
                             <% break %>
                         <% else %>
-                            <td align="center" nowrap rowspan=<%= $rowspan[day_index] %> bgcolor="#FF4444"> <%= raw($overall_payload) %> </td>
+                            <td align="center" rowspan=<%= $rowspan[day_index] %> bgcolor="#FF4444"> <%= raw($overall_payload) %> </td>
 
                             <% break %>
 
