@@ -49,14 +49,14 @@
 
 
 
-  <% (1..24).each do |half_hour_index| %>
+  <% (1..maxH).each do |half_hour_index| %>
       <tr height="30">
 
         <td width="50" class="time">
           <% if half_hour_index.even? %>
-              <%= (9 + ((half_hour_index-1)/2).floor).to_s() + ":30" %>
+              <%= (maxL + ((half_hour_index-1)/2).floor).to_s() + ":30" %>
           <% else %>
-              <%= (9 + ((half_hour_index-1)/2).floor).to_s() + ":00" %>
+              <%= (maxL + ((half_hour_index-1)/2).floor).to_s() + ":00" %>
           <% end %>
         </td>
 
