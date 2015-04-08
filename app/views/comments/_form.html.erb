@@ -12,10 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :body %><br>
+
     <%= f.text_area :body %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= button_tag(type: 'submit', class: 'btn btn-sm btn-primary', value: 'Add Comment') do %>
+      Add Comment
+    <% end %>
   </div>
 <% end %>
