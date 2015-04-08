@@ -14,15 +14,15 @@
 
    list_object = @timeTableEntries
 %>
-
+<%= list_object %>
 <%-#list_object must be sorted by start_time. Otherwise wont work. -%>
 
-<% maxL = 0
+<% maxL = 100
    maxH = 0 %>
 
 <% list_object.each do |entry|
-  if -1*entry.start_time < maxL
-    maxL = -1*entry.start_time
+  if entry.start_time < maxL
+    maxL = entry.start_time
   end
 
   if entry.end_time > maxH
@@ -33,9 +33,13 @@
 
 
 <% end
-   maxL = -1*maxL
-   maxH = 2*(maxH - maxL) + 1
+   if maxL != 100
+     maxH = 2*(maxH - maxL) + 1
+   end
+
 %>
+
+<%= maxH.to_s + " " + maxL.to_s %>
 
 <table class="sched" width="100%" cellpadding="0" cellspacing="0">
   <tr height="20">
@@ -85,7 +89,7 @@
 
                 <% list_object.each do |entry| %>
 
-                    <% if entry.day == $day_array[day_index] and entry.start_time == (9 + ((half_hour_index-1)/2).floor) %>
+                    <% if entry.day == $day_array[day_index] and entry.start_time == (maxL + ((half_hour_index-1)/2).floor) %>
                         <% $found = 1 %>
 
                         <%-#Found a matching entry. Will now need to scan all duration hours for start_time conflicts. -%>
