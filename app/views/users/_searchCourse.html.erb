@@ -97,16 +97,15 @@
 
 
             <%= form_tag addSection_user_path(user_id: @user,course_id: course), :method => :put do %>
-
               <%course.Wintersections.each do |section| %>
                     <% if course.course_users.first.section_ids.include? section[0] %>
                         <li style="list-style:none;"><%= check_box_tag("section_ids[]", section[0], {:checked =>"checked"}) %>
-                        <%= label_tag("section_ids[]", (section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")"+ (section[1][2].to_s!="" ? "<br/> - " + section[1][2].to_s : "")).html_safe, class: "checkbox-inline")  %></li>
+                        <%= label_tag("", (section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")"+ (section[1][2].to_s!="" ? "<br/> - " + section[1][2].to_s : "")).html_safe)  %></li>
 
 
                     <%else%>
                         <li style="list-style:none;"><%= check_box_tag("section_ids[]", section[0]) %>
-                        <%= label_tag("section_ids[]", (section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")"+ (section[1][2].to_s!="" ? "<br/> - " + section[1][2].to_s : "")).html_safe, class: "checkbox-inline")  %></li>
+                        <%= label_tag("", (section[0] + " ("+(section[1][4].to_s!="" ? section[1][4].to_s : "?")+"/"+(section[1][5].to_s!="" ? section[1][5].to_s : "?")+")"+ (section[1][2].to_s!="" ? "<br/> - " + section[1][2].to_s : "")).html_safe)  %></li>
                     <% end %>
               <% end %>
 
